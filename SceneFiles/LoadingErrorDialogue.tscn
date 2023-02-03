@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c6gvhe23srgto"]
+
+[node name="LoadingErrorDialogue" type="AcceptDialog"]
+disable_3d = true
+title = "Uh Oh!"
+size = Vector2i(297, 109)
+visible = true
+dialog_text = "There was an error loading the data
+      Please download a fresh copy"

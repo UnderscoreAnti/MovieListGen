@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://blp75sr6qskvp"]
+
+[ext_resource type="Script" path="res://CodeFiles/RejectMovieDialogue.cs" id="1_m0x64"]
+
+[node name="RejectMovieDialogue" type="Window"]
+disable_3d = true
+initial_position = 3
+title = "Reject Movie?"
+size = Vector2i(1200, 675)
+current_screen = 1
+content_scale_aspect = 1
+script = ExtResource("1_m0x64")
+
+[node name="MarginContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Why is this movie being rejected?"
+
+[node name="CloseDialogue" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Submit Reason"
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="close_requested" from="." to="." method="CloseRequest"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/CloseDialogue" to="." method="CloseRejectMovieDialogue"]
