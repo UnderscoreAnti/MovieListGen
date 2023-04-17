@@ -3,21 +3,31 @@ using System;
 
 public partial class MovieEntryData : Resource
 {
-    public bool AlreadyWatched = false;
-    public bool IsFindable = true;
-    public string MovieName;
-    public int MovieRating;
+	public int AlreadyWatched;
+	public int IsFinable;
+	public int GeneralMovieRanking;
+	public int SharMovieRanking;
+	public int LenzoMovieRanking;
+	public int JasonMovieRanking;
 
-    public string MovieRejectReason;
-    public string MovieReview = "Movie not reviewed";
+	public string MovieTitle;
+	public string MovieRejectReason;
+	public string MovieReview;
 
-    public MovieEntryData(string name, int rating, bool findable, bool watched, string review, string rejection="")
-    {
-        MovieName = name;
-        MovieRating = rating;
-        IsFindable = findable;
-        AlreadyWatched = watched;
-        MovieReview = review;
-        MovieRejectReason = rejection;
-    }
+	public int BoolToInt(bool ConvertVal)
+	{
+		if (ConvertVal == true)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	public bool IntToBool(int ConvertVal)
+	{
+		return ConvertVal == 1;
+	}
 }

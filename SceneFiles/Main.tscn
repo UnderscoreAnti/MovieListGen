@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1v068hmlr4k4"]
+[gd_scene load_steps=6 format=3 uid="uid://d1v068hmlr4k4"]
 
 [ext_resource type="Script" path="res://CodeFiles/Main.cs" id="1_pplhp"]
 [ext_resource type="PackedScene" uid="uid://cqjklud3wl1hl" path="res://SceneFiles/MovieEntry.tscn" id="2_trkxv"]
 [ext_resource type="PackedScene" uid="uid://blp75sr6qskvp" path="res://SceneFiles/RejectMovieDialogue.tscn" id="3_agaka"]
+[ext_resource type="PackedScene" uid="uid://c6gvhe23srgto" path="res://SceneFiles/LoadingErrorDialogue.tscn" id="4_j07cr"]
+[ext_resource type="Script" path="res://CodeFiles/SaveSystem.cs" id="4_r7k8u"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -16,6 +18,7 @@ MovieListIn = "res://ResourceFiles/MovieListFeed.txt"
 MovieListOut = "res://ResourceFiles/MovieListCompleted.txt"
 MovieEntryScene = ExtResource("2_trkxv")
 RejectMovieDialogueScene = ExtResource("3_agaka")
+LoadingErrorDialogueScene = ExtResource("4_j07cr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -53,6 +56,12 @@ horizontal_scroll_mode = 0
 [node name="MainList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="SaveSystem" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_r7k8u")
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PickNewMovie" to="." method="PickNewMovie"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PickNewMovieReplace" to="." method="PickNewMovieAndReplace"]
