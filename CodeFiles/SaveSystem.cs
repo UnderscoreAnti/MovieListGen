@@ -5,6 +5,11 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.IO;
 
+//
+// Create faux data to test with
+// Create a command to filter faux data
+// Create a command to enter data from the application
+//
 
 public partial class SaveSystem : Control
 {
@@ -28,7 +33,7 @@ public partial class SaveSystem : Control
 			CommandOutput = SQLiteConnection.CreateCommand();
 		}
 
-		CommandOutput.CommandText = @"INSERT INTO movies VALUES (1568164861, TestMovie,)"
+		CommandOutput.CommandText = @"";
 	}
 
 	public override void _ExitTree()
