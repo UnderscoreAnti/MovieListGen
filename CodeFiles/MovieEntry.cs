@@ -3,6 +3,8 @@ using System;
 
 public partial class MovieEntry : Label
 {
+	public int MovieID;
+
 	public bool AlreadyWatched = false;
 	public bool IsFindable = true;
 

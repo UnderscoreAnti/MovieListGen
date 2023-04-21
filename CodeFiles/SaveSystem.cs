@@ -17,6 +17,7 @@ public partial class SaveSystem : Control
 		{
 			SQLiteConnection = new SqlConnection("Data Source=SaveFile.db");
 			CommandOutput = SQLiteConnection.CreateCommand();
+
 		}
 
 		else
@@ -26,6 +27,8 @@ public partial class SaveSystem : Control
 			SQLiteConnection = new SqlConnection("Data Source=SaveFile.db");
 			CommandOutput = SQLiteConnection.CreateCommand();
 		}
+
+		CommandOutput.CommandText = @"INSERT INTO movies VALUES (1568164861, TestMovie,)"
 	}
 
 	public override void _ExitTree()

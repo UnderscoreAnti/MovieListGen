@@ -3,6 +3,8 @@ using System;
 
 public partial class MovieEntryData : Resource
 {
+	public int MovieID;
+	
 	public int AlreadyWatched;
 	public int IsFinable;
 	public int GeneralMovieRanking;
