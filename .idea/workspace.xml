@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57ac04d7-ae1a-4f80-82d4-eb2d3a0f0253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CodeFiles/MovieEntry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/MovieEntry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CodeFiles/MovieEntryData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/MovieEntryData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/icon.svg.import" beforeDir="false" afterPath="$PROJECT_DIR$/icon.svg.import" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/90d582aa-c3a2-4f09-8e85-503256c40fab.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/90d582aa-c3a2-4f09-8e85-503256c40fab.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListCompleted.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListCompleted.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceFiles/UnfindableMovies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/UnfindableMovies.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SaveFile.db" beforeDir="false" afterPath="$PROJECT_DIR$/SaveFile.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TxtToDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/TxtToDB.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +33,7 @@
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sbell&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sbell/Documents/CS/MovieListGen/SaveFile.db&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   },
   &quot;keyToStringList&quot;: {
