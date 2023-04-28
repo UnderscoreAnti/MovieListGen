@@ -10,7 +10,6 @@ public partial class Main : Control
 	[Export(PropertyHint.File)] private PackedScene RejectMovieDialogueScene;
 	[Export(PropertyHint.File)] private PackedScene LoadingErrorDialogueScene;
 
-	private string SaveFilePath = "user://MovieListData.save";
 	private Array<MovieEntry> MovieList = new();
 	private VBoxContainer PageList;
 	private MovieEntry CurrentMovie;
@@ -22,6 +21,9 @@ public partial class Main : Control
 	{
 		DB = (SaveSystem) GetNode("SaveSystem");
 		CurrentMovieLabel = (Label) GetNode("VBoxContainer/HBoxContainer/CurrentMovieTitle");
+
+		Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
+		
 		CreateList();
 	}
 

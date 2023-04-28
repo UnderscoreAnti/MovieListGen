@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57ac04d7-ae1a-4f80-82d4-eb2d3a0f0253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/90d582aa-c3a2-4f09-8e85-503256c40fab.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/90d582aa-c3a2-4f09-8e85-503256c40fab.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListCompleted.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListCompleted.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceFiles/UnfindableMovies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/UnfindableMovies.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SaveFile.db" beforeDir="false" afterPath="$PROJECT_DIR$/SaveFile.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TxtToDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/TxtToDB.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
