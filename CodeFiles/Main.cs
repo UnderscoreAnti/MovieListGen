@@ -22,7 +22,7 @@ public partial class Main : Control
 		DB = (SaveSystem) GetNode("SaveSystem");
 		CurrentMovieLabel = (Label) GetNode("VBoxContainer/HBoxContainer/CurrentMovieTitle");
 
-		Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
+		//Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
 		
 		CreateList();
 	}

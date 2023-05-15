@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
@@ -37,19 +38,7 @@ public partial class SaveSystem : Control
 
 	public Array<MovieEntry> GetUnwatchedMovieList()
 	{
-		CommandOutput.CommandText = @"SELECT * from movies WHERE watched = 0;";
-		
-		CommandReader = CommandOutput.ExecuteReader();
-
-		if (CommandReader.HasRows)
-		{
-			
-		}
-
-		else
-		{
-			GD.PushWarning("Data could not be collected from the database. Please check the command and try again.");
-		}
+		//
 		return new Array<MovieEntry>();
 	}
 
