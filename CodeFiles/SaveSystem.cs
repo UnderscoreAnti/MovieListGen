@@ -38,7 +38,15 @@ public partial class SaveSystem : Control
 
 	public Array<MovieEntry> GetUnwatchedMovieList()
 	{
-		//
+		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 0";
+		CommandReader = CommandOutput.ExecuteReader();
+
+		while (CommandReader.Read())
+		{
+			GD.Print("We are indeed entering the Spider-Verse,.");
+			GD.Print($"{CommandReader.GetValue(0)}, {CommandReader.GetValue(1)} {CommandReader.GetValue(2)}");
+		}
+		
 		return new Array<MovieEntry>();
 	}
 
