@@ -25,38 +25,34 @@ public partial class SaveSystem : Control
 			File.Create("SaveFile.db").Dispose();
 
 			SQLiteConn = new SQLiteConnection("Data Source=SaveFile.db");
+			// Tbh this should never happen. I have no clue how to prevent this from happening. 
 			// Code that will pull data from a remote location and fill the DB with update data
 		}
 		
 		SQLiteConn.Open();
 		CommandOutput = SQLiteConn.CreateCommand();
-		// CommandOutput.CommandText = @"INSERT INTO movies VALUES (12093012009, 1, 1, 'movie was not rejected', " +
-        //                    @"'stinky movie', 3, 3, 2 ,3, 'Worst Fake Movie')";
 
-		CommandOutput.ExecuteNonQuery();
+		GetUnwatchedMovieList();
 	}
 
-	public Array<MovieEntry> GetUnwatchedMovieList()
+	public void GetUnwatchedMovieList()
 	{
-		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 0";
+		GD.Print("We are indeed entering the Spider-Verse...");
+		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1";
 		CommandReader = CommandOutput.ExecuteReader();
 
 		while (CommandReader.Read())
 		{
-			GD.Print("We are indeed entering the Spider-Verse,.");
-			GD.Print($"{CommandReader.GetValue(0)}, {CommandReader.GetValue(1)} {CommandReader.GetValue(2)}");
+			var GetVals = CommandReader.GetValues();
+			GD.Print($"Movie: {CommandReader.GetValue(9)} (id: {CommandReader.GetValue(0)}) has the rank: {CommandReader.GetValue(6)}");
+			// So that's the beginning...uhhhhhhhh.... what the hell am I gonna do to finish all this :(
+			// Gonna need to make a quick sandbox project so I can thoroughly debug and study the "GetValues" function.
 		}
-		
-		return new Array<MovieEntry>();
 	}
 
 	public override void _ExitTree()
 	{
 		SQLiteConn.Close();
 		SQLiteConn.Dispose();
-	}
-	
-	public override void _Process(double delta)
-	{
 	}
 }

@@ -24,10 +24,10 @@ public partial class Main : Control
 
 		//Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
 		
-		CreateList();
+		CreateListUI();
 	}
 
-	public void CreateList()
+	public void CreateListUI()
 	{
 		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
 		
@@ -38,7 +38,7 @@ public partial class Main : Control
 		{
 			if (title == String.Empty)
 			{
-				GD.Print("End of List");
+				GD.Print("End of TextFile");
 			}
 
 			else
