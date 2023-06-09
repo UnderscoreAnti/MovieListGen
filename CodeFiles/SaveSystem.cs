@@ -44,7 +44,8 @@ public partial class SaveSystem : Control
 		while (CommandReader.Read())
 		{
 			var GetVals = CommandReader.GetValues();
-			GD.Print($"Movie: {CommandReader.GetValue(9)} (id: {CommandReader.GetValue(0)}) has the rank: {CommandReader.GetValue(6)}");
+			GD.Print($"Movie: {CommandReader.GetValue(7).GetType()} (id: {CommandReader.GetValue(1).GetType()}) has the rank: {CommandReader.GetValue(3)}");
+			
 			// So that's the beginning...uhhhhhhhh.... what the hell am I gonna do to finish all this :(
 			// Gonna need to make a quick sandbox project so I can thoroughly debug and study the "GetValues" function.
 		}

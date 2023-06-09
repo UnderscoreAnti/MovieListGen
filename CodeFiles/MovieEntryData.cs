@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Concurrent;
 
 public partial class MovieEntryData : Resource
 {
@@ -28,8 +29,30 @@ public partial class MovieEntryData : Resource
 		}
 	}
 
-	public bool IntToBool(int ConvertVal)
+	public bool IntToBool(long ConvertVal)
 	{
 		return ConvertVal == 1;
+	}
+
+	// public void ConvertFromDB(long movID, long isWatched, long isFindable,
+	// 	string movRej, string movRev, long gRank, long lRank,
+	// 	long jRank, long sRank, string movTitle)
+	
+	public void ConvertFromDB(long movID, long isWatched, long isFindable,
+							string movRej, string movRev, long gRank, long lRank,
+							long jRank, long sRank, string movTitle)
+	{
+		MovieID = Convert.ToInt32(movID);
+		
+		AlreadyWatched = Convert.ToInt32(isWatched);
+		MovieRejectReason = movRej;
+		MovieReview = movRev;
+		IsFinable = Convert.ToInt32(isFindable);
+		GeneralMovieRanking = Convert.ToInt32(gRank);
+		LenzoMovieRanking = Convert.ToInt32(lRank);
+		JasonMovieRanking = Convert.ToInt32(jRank);
+		SharMovieRanking = Convert.ToInt32(sRank);
+	
+		MovieTitle = movTitle;
 	}
 }
