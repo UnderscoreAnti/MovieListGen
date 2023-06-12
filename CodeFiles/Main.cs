@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using Godot.Collections;
+using Array = Godot.Collections.Array;
 
 public partial class Main : Control
 {
@@ -24,10 +25,27 @@ public partial class Main : Control
 
 		//Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
 		
-		CreateListUI();
+		CreateListUI(SaveSystem.DataBaseActionsEnum.LoadUnWatchedMovieList);
 	}
 
-	public void CreateListUI()
+	public void CreateListUI(SaveSystem.DataBaseActionsEnum RequestedList)
+	{
+		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
+
+		DB.DBActionIO(RequestedList);
+		Array<MovieEntryData> UIElementData = DB.ReturnIO();
+
+		foreach (MovieEntryData ElementData in UIElementData)
+		{
+			
+			MovieEntry NewEntry = (MovieEntry) MovieEntryScene.Instantiate();
+			NewEntry.ProcessMovieData(ElementData);
+			MovieList.Add(NewEntry);
+			PageList.AddChild(NewEntry);
+		}
+	}
+	
+	public void CreateListUIOld()
 	{
 		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
 		
