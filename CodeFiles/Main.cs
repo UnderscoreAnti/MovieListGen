@@ -26,6 +26,7 @@ public partial class Main : Control
 		//Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
 		
 		CreateListUI(SaveSystem.DataBaseActionsEnum.LoadUnWatchedMovieList);
+		
 	}
 
 	public void CreateListUI(SaveSystem.DataBaseActionsEnum RequestedList)
@@ -33,13 +34,15 @@ public partial class Main : Control
 		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
 
 		DB.DBActionIO(RequestedList);
+		
 		Array<MovieEntryData> UIElementData = DB.ReturnIO();
+		GD.Print($"{UIElementData.Count.ToString()} from the Create UI List Function");
 
 		foreach (MovieEntryData ElementData in UIElementData)
 		{
-			
 			MovieEntry NewEntry = (MovieEntry) MovieEntryScene.Instantiate();
 			NewEntry.ProcessMovieData(ElementData);
+			GD.Print($"{NewEntry.Text} with ID: {NewEntry.MovieID}");
 			MovieList.Add(NewEntry);
 			PageList.AddChild(NewEntry);
 		}

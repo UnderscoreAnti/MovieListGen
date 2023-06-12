@@ -18,7 +18,7 @@ public partial class SaveSystem : Control
 
 	public enum DataBaseActionsEnum
 	{
-		LoadUnWatchedMovieList,
+		LoadUnWatchedMovieList
 	}
 
 	private System.Collections.Generic.Dictionary<DataBaseActionsEnum, Action> DBActions = new()
@@ -26,7 +26,7 @@ public partial class SaveSystem : Control
 		{DataBaseActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList}
 	};
 	
-	public override void _EnterTree()
+	public override void _Ready()
 	{
 		LoadUnwatchedMovieList = GetUnwatchedMovieList;
 		
@@ -47,21 +47,28 @@ public partial class SaveSystem : Control
 		SQLiteConn.Open();
 		CommandOutput = SQLiteConn.CreateCommand();
 	}
+	
+	public override void _ExitTree()
+	{
+		SQLiteConn.Close();
+		SQLiteConn.Dispose();
+	}
 
 	public void DBActionIO(DataBaseActionsEnum ACTION)
 	{
+		This right here is the fucking problem occifer
 		DBActions[ACTION]();
 	}
 
 	public Array<MovieEntryData> ReturnIO()
 	{
-		Array<MovieEntryData> Output = OutputArray;
+		Array<MovieEntryData> Output = new();
+		Output = OutputArray.Duplicate();
 		OutputArray.Clear();
 		return Output;
 	}
 
-
-	public void GetUnwatchedMovieList()
+	protected void GetUnwatchedMovieList()
 	{
 		GD.Print("We are indeed entering the Spider-Verse...");
 		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 0";
@@ -69,9 +76,6 @@ public partial class SaveSystem : Control
 
 		while (CommandReader.Read())
 		{
-			var GetVals = CommandReader.GetValues();
-			GD.Print($"Movie: {CommandReader.GetValue(7).GetType()} (id: {CommandReader.GetValue(1).GetType()}) has the rank: {CommandReader.GetValue(3)}");
-
 			MovieEntryData DBEntry = new();
 
 			DBEntry.ConvertFromDB(Convert.ToInt64(CommandReader.GetValue(0)),
@@ -91,9 +95,4 @@ public partial class SaveSystem : Control
 		}
 	}
 
-	public override void _ExitTree()
-	{
-		SQLiteConn.Close();
-		SQLiteConn.Dispose();
-	}
 }
