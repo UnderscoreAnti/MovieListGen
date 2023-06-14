@@ -13,22 +13,25 @@ public partial class SaveSystem : Control
 	private SQLiteDataReader CommandReader;
 
 	private static Action LoadUnwatchedMovieList;
+	private static Action LoadWatchedMovieList;
 	
 	public Array<MovieEntryData> OutputArray = new();
 
-	public enum DataBaseActionsEnum
+	public enum DbActionsEnum
 	{
-		LoadUnWatchedMovieList
+		LoadUnWatchedMovieList,
+		LoadWatchedMovieList,
 	}
 
-	private System.Collections.Generic.Dictionary<DataBaseActionsEnum, Action> DBActions = new()
-	{
-		{DataBaseActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList}
-	};
+	protected System.Collections.Generic.Dictionary<DbActionsEnum, Action> DBActions = new();
 	
-	public override void _Ready()
+	public override void _EnterTree()
 	{
 		LoadUnwatchedMovieList = GetUnwatchedMovieList;
+		LoadWatchedMovieList = GetWatchedMovieList;
+		
+		DBActions.Add(DbActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList);
+		DBActions.Add(DbActionsEnum.LoadWatchedMovieList, LoadWatchedMovieList);
 		
 		if (File.Exists("SaveFile.db"))
 		{
@@ -54,10 +57,13 @@ public partial class SaveSystem : Control
 		SQLiteConn.Dispose();
 	}
 
-	public void DBActionIO(DataBaseActionsEnum ACTION)
+	public void DBActionIO(DbActionsEnum ACTION)
 	{
-		This right here is the fucking problem occifer
-		DBActions[ACTION]();
+		if(DBActions.ContainsKey(ACTION))
+			DBActions[ACTION]();
+
+		else
+			GD.Print("ANOMALY DETECTED IN THE ACTION-IO WING OF THE PROGRAM!!!");
 	}
 
 	public Array<MovieEntryData> ReturnIO()
@@ -76,23 +82,41 @@ public partial class SaveSystem : Control
 
 		while (CommandReader.Read())
 		{
-			MovieEntryData DBEntry = new();
-
-			DBEntry.ConvertFromDB(Convert.ToInt64(CommandReader.GetValue(0)),
-				Convert.ToInt64(CommandReader.GetValue(1)),
-				Convert.ToInt64(CommandReader.GetValue(2)),
-				Convert.ToString(CommandReader.GetValue(3)),
-				Convert.ToString(CommandReader.GetValue(4)),
-				Convert.ToInt64(CommandReader.GetValue(5)),
-				Convert.ToInt64(CommandReader.GetValue(6)),
-				Convert.ToInt64(CommandReader.GetValue(7)),
-				Convert.ToInt64(CommandReader.GetValue(8)),
-				Convert.ToString(CommandReader.GetValue(9)));
-			
+			MovieEntryData DBEntry = CreateMovieEntryData();
 			OutputArray.Add(DBEntry);
 			// So that's the beginning...uhhhhhhhh.... what the hell am I gonna do to finish all this :(
 			// Gonna need to make a quick sandbox project so I can thoroughly debug and study the "GetValues" function.
 		}
+	}
+	
+	public void GetWatchedMovieList()
+	{
+		GD.Print("We are indeed exiting the Spider-Verse...");
+		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1";
+		CommandReader = CommandOutput.ExecuteReader();
+
+		while (CommandReader.Read())
+		{
+			MovieEntryData DBEntry = CreateMovieEntryData();
+			OutputArray.Add(DBEntry);
+		}
+	}
+
+	private MovieEntryData CreateMovieEntryData()
+	{
+		MovieEntryData NewDat = new();
+		NewDat.ConvertFromDB(Convert.ToInt64(CommandReader.GetValue(0)),
+			Convert.ToInt64(CommandReader.GetValue(1)),
+			Convert.ToInt64(CommandReader.GetValue(2)),
+			Convert.ToString(CommandReader.GetValue(3)),
+			Convert.ToString(CommandReader.GetValue(4)),
+			Convert.ToInt64(CommandReader.GetValue(5)),
+			Convert.ToInt64(CommandReader.GetValue(6)),
+			Convert.ToInt64(CommandReader.GetValue(7)),
+			Convert.ToInt64(CommandReader.GetValue(8)),
+			Convert.ToString(CommandReader.GetValue(9)));
+
+		return NewDat;
 	}
 
 }

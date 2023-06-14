@@ -22,54 +22,24 @@ public partial class Main : Control
 	{
 		DB = (SaveSystem) GetNode("SaveSystem");
 		CurrentMovieLabel = (Label) GetNode("VBoxContainer/HBoxContainer/CurrentMovieTitle");
-
-		//Array<MovieEntry> Test = DB.GetUnwatchedMovieList();
 		
-		CreateListUI(SaveSystem.DataBaseActionsEnum.LoadUnWatchedMovieList);
-		
+		CreateListUI(SaveSystem.DbActionsEnum.LoadUnWatchedMovieList);
 	}
 
-	public void CreateListUI(SaveSystem.DataBaseActionsEnum RequestedList)
+	public void CreateListUI(SaveSystem.DbActionsEnum RequestedList)
 	{
 		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
 
 		DB.DBActionIO(RequestedList);
 		
 		Array<MovieEntryData> UIElementData = DB.ReturnIO();
-		GD.Print($"{UIElementData.Count.ToString()} from the Create UI List Function");
-
 		foreach (MovieEntryData ElementData in UIElementData)
 		{
 			MovieEntry NewEntry = (MovieEntry) MovieEntryScene.Instantiate();
 			NewEntry.ProcessMovieData(ElementData);
-			GD.Print($"{NewEntry.Text} with ID: {NewEntry.MovieID}");
+			NewEntry.GenerateText();
 			MovieList.Add(NewEntry);
 			PageList.AddChild(NewEntry);
-		}
-	}
-	
-	public void CreateListUIOld()
-	{
-		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
-		
-		string LoadFile = FileAccess.GetFileAsString(MovieListIn);
-		string[] NDString = LoadFile.Split("\n");
-
-		foreach (string title in NDString)
-		{
-			if (title == String.Empty)
-			{
-				GD.Print("End of TextFile");
-			}
-
-			else
-			{
-				MovieEntry NewEntry = (MovieEntry) MovieEntryScene.Instantiate();
-				NewEntry.UpdateName(title);
-				MovieList.Add(NewEntry);
-				PageList.AddChild(NewEntry);
-			}
-			
 		}
 	}
 
@@ -81,7 +51,7 @@ public partial class Main : Control
 		MovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
 
-		CurrentMovieLabel.Text = $"Now watching: {Entry.Text}";
+		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle}";
 	}
 
 	public void PickNewMovieAndReplace()
@@ -91,7 +61,7 @@ public partial class Main : Control
 		int MovieIndex = RNGesus.Next(ListCount);
 		MovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
-		CurrentMovieLabel.Text = $"Now watching: {Entry.Text} (And Replace)";
+		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle} (And Replace)";
 	}
 
 	public void RejectMovie()
@@ -119,10 +89,5 @@ public partial class Main : Control
 		{
 			child.QueueFree();
 		}
-	}
-
-	public void SaveDataToFile()
-	{
-		
 	}
 }

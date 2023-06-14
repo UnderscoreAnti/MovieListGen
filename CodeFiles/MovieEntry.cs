@@ -10,6 +10,7 @@ public partial class MovieEntry : Label
 
 	public string MovieRejectReason;
 	public string MovieReview = "Movie not reviewed";
+	public string MovieTitle;
 	
 	public int GeneralRanking;
 	public int SharRank;
@@ -18,14 +19,25 @@ public partial class MovieEntry : Label
 	
 	public void UpdateName(string NewName)
 	{
-		Text = NewName;
+		MovieTitle = NewName;
 	}
+
+	public void GenerateText()
+	{
+		Text = $"{MovieTitle} (db id: {MovieID})";
+
+		if (AlreadyWatched)
+		{
+			Text += $" | RANK: {GeneralRanking}";
+		}
+	}
+	
 
 	public MovieEntryData GenerateEntryData()
 	{
 		MovieEntryData NewData = new();
 
-		NewData.MovieTitle = Text;
+		NewData.MovieTitle = MovieTitle;
 		NewData.MovieRejectReason = MovieRejectReason;
 		NewData.AlreadyWatched = NewData.BoolToInt(AlreadyWatched);
 		NewData.IsFinable = NewData.BoolToInt(IsFindable);
@@ -35,13 +47,15 @@ public partial class MovieEntry : Label
 		NewData.SharMovieRanking = SharRank;
 		NewData.LenzoMovieRanking = LenzoRank;
 		NewData.JasonMovieRanking = JasonRank;
+
+		NewData.MovieID = MovieID;
 		
 		return NewData;
 	}
 
 	public void ProcessMovieData(MovieEntryData Data)
 	{
-		Text = Data.MovieTitle;
+		MovieTitle = Data.MovieTitle;
 		MovieRejectReason = Data.MovieRejectReason;
 		AlreadyWatched = Data.IntToBool(Data.AlreadyWatched);
 		IsFindable = Data.IntToBool(Data.IsFinable);
@@ -51,6 +65,8 @@ public partial class MovieEntry : Label
 		SharRank = Data.SharMovieRanking;
 		LenzoRank = Data.LenzoMovieRanking;
 		JasonRank = Data.JasonMovieRanking;
+
+		MovieID = Data.MovieID;
 	}
 
 }
