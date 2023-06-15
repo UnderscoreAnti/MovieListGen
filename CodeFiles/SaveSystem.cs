@@ -8,6 +8,8 @@ using Array = Godot.Collections.Array;
 
 public partial class SaveSystem : Control
 {
+	[Signal] public delegate void UpdateStatusBarEventHandler(string Message); 
+	
 	private SQLiteConnection SQLiteConn;
 	private SQLiteCommand CommandOutput;
 	private SQLiteDataReader CommandReader;
@@ -17,14 +19,16 @@ public partial class SaveSystem : Control
 	
 	public Array<MovieEntryData> OutputArray = new();
 
+	private ConfigFile ConFile = new ConfigFile();
+
+	protected System.Collections.Generic.Dictionary<DbActionsEnum, Action> DBActions = new();
+	
 	public enum DbActionsEnum
 	{
 		LoadUnWatchedMovieList,
 		LoadWatchedMovieList,
 	}
 
-	protected System.Collections.Generic.Dictionary<DbActionsEnum, Action> DBActions = new();
-	
 	public override void _EnterTree()
 	{
 		LoadUnwatchedMovieList = GetUnwatchedMovieList;
@@ -57,13 +61,24 @@ public partial class SaveSystem : Control
 		SQLiteConn.Dispose();
 	}
 
+	public void LoadSettings()
+	{
+		Error Err = ConFile.Load("user://Settings.cfg");
+
+		if (Err != Error.Ok)
+		{
+			EmitSignal(SignalName.UpdateStatusBar, "Canon Event Disruption: Settings file");
+		}
+		
+	}
+
 	public void DBActionIO(DbActionsEnum ACTION)
 	{
-		if(DBActions.ContainsKey(ACTION))
+		if (DBActions.ContainsKey(ACTION))
 			DBActions[ACTION]();
 
 		else
-			GD.Print("ANOMALY DETECTED IN THE ACTION-IO WING OF THE PROGRAM!!!");
+			EmitSignal(SignalName.UpdateStatusBar, "ANOMALY DETECTED IN THE ACTION-IO WING OF THE PROGRAM!!!");
 	}
 
 	public Array<MovieEntryData> ReturnIO()
@@ -76,7 +91,6 @@ public partial class SaveSystem : Control
 
 	protected void GetUnwatchedMovieList()
 	{
-		GD.Print("We are indeed entering the Spider-Verse...");
 		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 0";
 		CommandReader = CommandOutput.ExecuteReader();
 
@@ -91,7 +105,6 @@ public partial class SaveSystem : Control
 	
 	public void GetWatchedMovieList()
 	{
-		GD.Print("We are indeed exiting the Spider-Verse...");
 		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1";
 		CommandReader = CommandOutput.ExecuteReader();
 

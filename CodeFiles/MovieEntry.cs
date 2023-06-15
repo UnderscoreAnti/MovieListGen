@@ -24,7 +24,7 @@ public partial class MovieEntry : Label
 
 	public void GenerateText()
 	{
-		Text = $"{MovieTitle} (db id: {MovieID})";
+		Text = $"{MovieTitle}";
 
 		if (AlreadyWatched)
 		{
@@ -61,12 +61,23 @@ public partial class MovieEntry : Label
 		IsFindable = Data.IntToBool(Data.IsFinable);
 		MovieReview = Data.MovieReview;
 
-		GeneralRanking = Data.GeneralMovieRanking;
 		SharRank = Data.SharMovieRanking;
 		LenzoRank = Data.LenzoMovieRanking;
 		JasonRank = Data.JasonMovieRanking;
 
+		GeneralRanking = GenerateGeneralRank(JasonRank, LenzoRank, SharRank);
+		
 		MovieID = Data.MovieID;
+	}
+
+	private int GenerateGeneralRank(int JR, int LR, int SR)
+	{
+		return (JR + LR + SR) / 3;
+	}
+
+	public void GeneralRankUpdated(int JR, int LR, int SR)
+	{
+		GeneralRanking = GenerateGeneralRank(JR, LR, SR);
 	}
 
 }

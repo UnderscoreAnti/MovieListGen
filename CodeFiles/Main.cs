@@ -14,21 +14,45 @@ public partial class Main : Control
 	private Array<MovieEntry> MovieList = new();
 	private VBoxContainer PageList;
 	private MovieEntry CurrentMovie;
+	
 	private Label CurrentMovieLabel;
+	private Label StatusBar;
+	private Button NewMovieButton;
+	private Button NewAndReplaceButton;
+	private Button RejectButton;
 
 	private SaveSystem DB;
 
 	public override void _Ready()
 	{
-		DB = (SaveSystem) GetNode("SaveSystem");
-		CurrentMovieLabel = (Label) GetNode("VBoxContainer/HBoxContainer/CurrentMovieTitle");
+		StatusBar = (Label) GetNode("MainUI/TabContainer/StatusBar");
+		UpdateSB("Status Bar is in the correct dimension.");
 		
+		DB = (SaveSystem) GetNode("SaveSystem");
+		
+		NewMovieButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovie");
+		NewAndReplaceButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovieReplace");
+		RejectButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/RejectMovie");
+		
+		CurrentMovieLabel = (Label) GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/CurrentMovieTitle");
+		
+		UpdateSB("Entering the Spider-Verse...");
 		CreateListUI(SaveSystem.DbActionsEnum.LoadUnWatchedMovieList);
+
+		NewAndReplaceButton.Disabled = true;
+		RejectButton.Disabled = true;
+		
+		UpdateSB("We are going into the Spider-Verse...");
+		
+		// TEST 
+		// TEST 
+		// MAKE SURE YOU DELETE IT NIGGA
+		DB.LoadSettings();
 	}
 
 	public void CreateListUI(SaveSystem.DbActionsEnum RequestedList)
 	{
-		PageList = (VBoxContainer) GetNode("VBoxContainer/ScrollContainer/MainList");
+		PageList = (VBoxContainer) GetNode("MainUI/UnwatchedMoviesUI/UwatchedListUI/MainList");
 
 		DB.DBActionIO(RequestedList);
 		
@@ -45,13 +69,25 @@ public partial class Main : Control
 
 	public void PickNewMovie()
 	{
+		if (NewMovieButton.Text == "RANK MOVIE")
+		{
+			// FunctionCall
+			return;
+		}
+		
 		Random RNGesus = new();
 		int ListCount = MovieList.Count;
 		int MovieIndex = RNGesus.Next(ListCount);
 		MovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
+		
+		UpdateSB("Versed...");
 
 		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle}";
+		NewAndReplaceButton.Disabled = false;
+		RejectButton.Disabled = false;
+		
+		NewMovieButton.Text = "RANK MOVIE";
 	}
 
 	public void PickNewMovieAndReplace()
@@ -61,7 +97,10 @@ public partial class Main : Control
 		int MovieIndex = RNGesus.Next(ListCount);
 		MovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
-		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle} (And Replace)";
+		
+		UpdateSB("Re-Versed...");
+		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle}";
+		NewAndReplaceButton.Disabled = true;
 	}
 
 	public void RejectMovie()
@@ -75,11 +114,18 @@ public partial class Main : Control
 	{
 		if (InText == String.Empty)
 		{
-			GD.Print("Operation aborted!");
+			UpdateSB("Operation aborted!");
 		}
 		else
 		{
 			CurrentMovie.MovieRejectReason = InText;
+			NewMovieButton.Text = "NEW MOVIE";
+			
+			NewAndReplaceButton.Disabled = true;
+			RejectButton.Disabled = true;
+			UpdateSB("An alternate universe 'you' is watching that movie right now...");
+
+			CurrentMovieLabel.Text = "No Movie Picked";
 		}
 	}
 
@@ -89,5 +135,10 @@ public partial class Main : Control
 		{
 			child.QueueFree();
 		}
+	}
+
+	public void UpdateSB(string Message)
+	{
+		StatusBar.Text = Message;
 	}
 }

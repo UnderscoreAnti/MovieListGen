@@ -20,7 +20,7 @@ MovieEntryScene = ExtResource("2_trkxv")
 RejectMovieDialogueScene = ExtResource("3_agaka")
 LoadingErrorDialogueScene = ExtResource("4_j07cr")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MainUI" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,32 +28,53 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TabContainer" type="MarginContainer" parent="MainUI"]
 layout_mode = 2
 
-[node name="CurrentMovieTitle" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="StatusBar" type="Label" parent="MainUI/TabContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "DEMO TEXT"
+
+[node name="TabBar" type="TabBar" parent="MainUI/TabContainer"]
+layout_mode = 2
+tab_count = 4
+tab_0/title = "Pick Unwatched Movies"
+tab_1/title = "Review Watched Movies "
+tab_2/title = "View Rankings"
+tab_3/title = "Settings"
+
+[node name="UnwatchedMoviesUI" type="VBoxContainer" parent="MainUI"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PickMovieUI" type="HBoxContainer" parent="MainUI/UnwatchedMoviesUI"]
+layout_mode = 2
+
+[node name="CurrentMovieTitle" type="Label" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "No Movie Picked"
 
-[node name="PickNewMovie" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="PickNewMovie" type="Button" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
 layout_mode = 2
 text = "NEW MOVIE"
 
-[node name="PickNewMovieReplace" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="PickNewMovieReplace" type="Button" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
 layout_mode = 2
 text = "NEW MOVIE AND REPLACE"
 
-[node name="RejectMovie" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="RejectMovie" type="Button" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
 layout_mode = 2
 text = "CAN'T WATCH MOVIE"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="UwatchedListUI" type="ScrollContainer" parent="MainUI/UnwatchedMoviesUI"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="MainList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="MainList" type="VBoxContainer" parent="MainUI/UnwatchedMoviesUI/UwatchedListUI"]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -63,6 +84,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_r7k8u")
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PickNewMovie" to="." method="PickNewMovie"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PickNewMovieReplace" to="." method="PickNewMovieAndReplace"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/RejectMovie" to="." method="RejectMovie"]
+[connection signal="pressed" from="MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovie" to="." method="PickNewMovie"]
+[connection signal="pressed" from="MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovieReplace" to="." method="PickNewMovieAndReplace"]
+[connection signal="pressed" from="MainUI/UnwatchedMoviesUI/PickMovieUI/RejectMovie" to="." method="RejectMovie"]
+[connection signal="UpdateStatusBar" from="SaveSystem" to="." method="UpdateSB"]
