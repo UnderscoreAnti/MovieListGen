@@ -70,7 +70,11 @@ public partial class SaveSystem : Control
 		{
 			EmitSignal(SignalName.UpdateStatusBar, "Canon Event Disruption: Settings file");
 			FileAccess.Open("user://Settings.cfg", FileAccess.ModeFlags.Read);
-			// EmitSignal()
+			
+			EmitSignal(SignalName.UpdateStatusBar, "Attempting to open the Settings file... ");
+			LoadSettings();
+			
+			GD.Print("Spyders");
 		}
 		
 	}

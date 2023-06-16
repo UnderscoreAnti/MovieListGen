@@ -43,6 +43,8 @@ public partial class Main : Control
 		RejectButton.Disabled = true;
 		
 		UpdateSB("We are going into the Spider-Verse...");
+		
+		DB.LoadSettings();
 	}
 
 	public void CreateListUI(SaveSystem.DbActionsEnum RequestedList)
@@ -83,6 +85,7 @@ public partial class Main : Control
 		RejectButton.Disabled = false;
 		
 		NewMovieButton.Text = "RANK MOVIE";
+		
 	}
 
 	public void PickNewMovieAndReplace()
