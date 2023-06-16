@@ -33,10 +33,6 @@ public partial class MovieEntryData : Resource
 	{
 		return ConvertVal == 1;
 	}
-
-	// public void ConvertFromDB(long movID, long isWatched, long isFindable,
-	// 	string movRej, string movRev, long gRank, long lRank,
-	// 	long jRank, long sRank, string movTitle)
 	
 	public void ConvertFromDB(long movID, long isWatched, long isFindable,
 							string movRej, string movRev, long gRank, long lRank,

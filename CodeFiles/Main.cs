@@ -43,11 +43,6 @@ public partial class Main : Control
 		RejectButton.Disabled = true;
 		
 		UpdateSB("We are going into the Spider-Verse...");
-		
-		// TEST 
-		// TEST 
-		// MAKE SURE YOU DELETE IT NIGGA
-		DB.LoadSettings();
 	}
 
 	public void CreateListUI(SaveSystem.DbActionsEnum RequestedList)

@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
+using FileAccess = Godot.FileAccess;
 
 public partial class SaveSystem : Control
 {
@@ -68,6 +69,8 @@ public partial class SaveSystem : Control
 		if (Err != Error.Ok)
 		{
 			EmitSignal(SignalName.UpdateStatusBar, "Canon Event Disruption: Settings file");
+			FileAccess.Open("user://Settings.cfg", FileAccess.ModeFlags.Read);
+			// EmitSignal()
 		}
 		
 	}
@@ -78,7 +81,9 @@ public partial class SaveSystem : Control
 			DBActions[ACTION]();
 
 		else
+		{
 			EmitSignal(SignalName.UpdateStatusBar, "ANOMALY DETECTED IN THE ACTION-IO WING OF THE PROGRAM!!!");
+		}
 	}
 
 	public Array<MovieEntryData> ReturnIO()
