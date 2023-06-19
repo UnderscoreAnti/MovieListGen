@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuib88i5i8xew"]
+
+[ext_resource type="Script" path="res://CodeFiles/SettingsConfig.cs" id="1_7gto4"]
+
+[node name="SettingsConfig" type="Window"]
+title = "Setings Config"
+size = Vector2i(1000, 500)
+script = ExtResource("1_7gto4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UserConfig" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/UserConfig"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Please Select a User"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/UserConfig"]
+layout_mode = 2
+size_flags_horizontal = 8
+item_count = 4
+popup/item_0/text = "Lenzo"
+popup/item_0/id = 0
+popup/item_1/text = "Jason"
+popup/item_1/id = 1
+popup/item_2/text = "Shar"
+popup/item_2/id = 2
+popup/item_3/text = "Dev"
+popup/item_3/id = 3
+
+[node name="AutosaveConfig" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/AutosaveConfig"]
+layout_mode = 2
+text = "Enable Auto Save?"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/AutosaveConfig"]
+layout_mode = 2
+
+[node name="EnableOnlineConfig" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/EnableOnlineConfig"]
+layout_mode = 2
+text = "Enable Online Features?"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/EnableOnlineConfig"]
+layout_mode = 2

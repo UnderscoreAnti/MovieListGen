@@ -9,7 +9,8 @@ using FileAccess = Godot.FileAccess;
 
 public partial class SaveSystem : Control
 {
-	[Signal] public delegate void UpdateStatusBarEventHandler(string Message); 
+	[Signal] public delegate void UpdateStatusBarEventHandler(string Message);
+	[Signal] public delegate void CreateSettingsDialogueEventHandler();
 	
 	private SQLiteConnection SQLiteConn;
 	private SQLiteCommand CommandOutput;
@@ -69,14 +70,17 @@ public partial class SaveSystem : Control
 		if (Err != Error.Ok)
 		{
 			EmitSignal(SignalName.UpdateStatusBar, "Canon Event Disruption: Settings file");
-			FileAccess.Open("user://Settings.cfg", FileAccess.ModeFlags.Read);
-			
+			FileAccess.Open("user://Settings.cfg", FileAccess.ModeFlags.Write);
+
 			EmitSignal(SignalName.UpdateStatusBar, "Attempting to open the Settings file... ");
 			LoadSettings();
-			
-			GD.Print("Spyders");
 		}
 		
+	}
+
+	public void CreateConfigFile()
+	{
+		ConfigFile NewF = new();
 	}
 
 	public void DBActionIO(DbActionsEnum ACTION)

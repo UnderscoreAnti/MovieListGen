@@ -9,6 +9,7 @@ public partial class Main : Control
 	[Export(PropertyHint.File)] private string MovieListOut;
 	[Export(PropertyHint.File)] private PackedScene MovieEntryScene;
 	[Export(PropertyHint.File)] private PackedScene RejectMovieDialogueScene;
+	[Export(PropertyHint.File)] private PackedScene SettingsConfigDialogueScene;
 	[Export(PropertyHint.File)] private PackedScene LoadingErrorDialogueScene;
 
 	private Array<MovieEntry> MovieList = new();
@@ -23,13 +24,22 @@ public partial class Main : Control
 
 	private SaveSystem DB;
 
+	public enum CurrentUser
+	{
+		ULenzo,
+		UJason,
+		UShar,
+		UDev
+	}
+
 	public override void _Ready()
 	{
 		StatusBar = (Label) GetNode("MainUI/TabContainer/StatusBar");
 		UpdateSB("Status Bar is in the correct dimension.");
 		
 		DB = (SaveSystem) GetNode("SaveSystem");
-		
+		DB.CreateSettingsDialogue += OpenSettingsConfigWindow;
+
 		NewMovieButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovie");
 		NewAndReplaceButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovieReplace");
 		RejectButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/RejectMovie");
@@ -106,6 +116,18 @@ public partial class Main : Control
 		RejectMovieDialogue RejectDialogue = (RejectMovieDialogue) RejectMovieDialogueScene.Instantiate();
 		RejectDialogue.RejectMovieDialogueClosed += RejectMovieDialogueClosed;
 		AddChild(RejectDialogue);
+	}
+
+	public void OpenSettingsConfigWindow()
+	{
+		SettingsConfig ConfigDialogue = (SettingsConfig)SettingsConfigDialogueScene.Instantiate();
+		ConfigDialogue.SettingsConfigDialogueClosed += SettingsConfigDialogueClosed;
+		AddChild(ConfigDialogue);
+	}
+
+	public void SettingsConfigDialogueClosed()
+	{
+		UpdateSB("Dimension locked in... Hello 42");
 	}
 
 	public void RejectMovieDialogueClosed(string InText)
