@@ -81,7 +81,6 @@ public partial class SaveSystem : Control
 				ReturnArray.Add((int) ConFile.GetValue(Setting, "User"));
 				ReturnArray.Add((bool) ConFile.GetValue(Setting, "AutoSave"));
 				ReturnArray.Add((bool) ConFile.GetValue(Setting, "Online"));
-				
 			}
 		}
 
