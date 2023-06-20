@@ -63,24 +63,41 @@ public partial class SaveSystem : Control
 		SQLiteConn.Dispose();
 	}
 
-	public void LoadSettings()
+	public Array LoadSettings()
 	{
 		Error Err = ConFile.Load("user://Settings.cfg");
+		Array ReturnArray = new Array();
 
 		if (Err != Error.Ok)
 		{
 			EmitSignal(SignalName.UpdateStatusBar, "Canon Event Disruption: Settings file");
-			FileAccess.Open("user://Settings.cfg", FileAccess.ModeFlags.Write);
-
-			EmitSignal(SignalName.UpdateStatusBar, "Attempting to open the Settings file... ");
-			LoadSettings();
+			EmitSignal(SignalName.CreateSettingsDialogue);
 		}
-		
+
+		if (Err == Error.Ok)
+		{
+			foreach (string Setting in ConFile.GetSections())
+			{
+				ReturnArray.Add((int) ConFile.GetValue(Setting, "User"));
+				ReturnArray.Add((bool) ConFile.GetValue(Setting, "AutoSave"));
+				ReturnArray.Add((bool) ConFile.GetValue(Setting, "Online"));
+				
+			}
+		}
+
+		return ReturnArray;
+
 	}
 
-	public void CreateConfigFile()
+	public void CreateConfigFile(int User, bool AutoSave, bool Online)
 	{
 		ConfigFile NewF = new();
+		
+		NewF.SetValue("Settings", "User", User);
+		NewF.SetValue("Settings", "AutoSave", AutoSave);
+		NewF.SetValue("Settings", "Online", Online);
+
+		NewF.Save("user://Settings.cfg");
 	}
 
 	public void DBActionIO(DbActionsEnum ACTION)

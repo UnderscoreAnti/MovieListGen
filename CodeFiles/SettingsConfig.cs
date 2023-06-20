@@ -3,27 +3,30 @@ using System;
 
 public partial class SettingsConfig : Window
 {
-	[Signal] public delegate void SettingsConfigDialogueClosedEventHandler();
+	[Signal] public delegate void SettingsConfigDialogueClosedEventHandler(int User, bool AutoSave, bool IsOnline);
 
-	[Signal] public delegate void UserSelectedEventHandler(int UserIndex);
-	
-	public override void _Ready()
-	{
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+	private int User;
+	private bool AutoSaveToggle;
+	private bool isOnlineToggle;
 
 	public void CloseRequest()
 	{
-		EmitSignal(SignalName.SettingsConfigDialogueClosed);
+		EmitSignal(SignalName.SettingsConfigDialogueClosed, User, AutoSaveToggle, isOnlineToggle);
 		QueueFree();
 	}
 
 	public void OnUserSelect(int Index)
 	{
-		EmitSignal(SignalName.UserSelected, Index);
+		User = Index;
+	}
+
+	public void OnAutoSaveToggled(bool Toggle)
+	{ 
+		AutoSaveToggle = Toggle;
+	}
+
+	public void OnOnlineToggled(bool Toggle)
+	{
+		isOnlineToggle = Toggle;
 	}
 }

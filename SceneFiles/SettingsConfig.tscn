@@ -4,12 +4,17 @@
 
 [node name="SettingsConfig" type="Window"]
 title = "Setings Config"
-size = Vector2i(1000, 500)
+size = Vector2i(350, 125)
 script = ExtResource("1_7gto4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="UserConfig" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -41,6 +46,7 @@ text = "Enable Auto Save?"
 
 [node name="CheckButton" type="CheckButton" parent="VBoxContainer/AutosaveConfig"]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="EnableOnlineConfig" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -51,3 +57,9 @@ text = "Enable Online Features?"
 
 [node name="CheckButton" type="CheckButton" parent="VBoxContainer/EnableOnlineConfig"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="close_requested" from="." to="." method="CloseRequest"]
+[connection signal="item_selected" from="VBoxContainer/UserConfig/OptionButton" to="." method="OnUserSelect"]
+[connection signal="toggled" from="VBoxContainer/AutosaveConfig/CheckButton" to="." method="OnAutoSaveToggled"]
+[connection signal="toggled" from="VBoxContainer/EnableOnlineConfig/CheckButton" to="." method="OnOnlineToggled"]

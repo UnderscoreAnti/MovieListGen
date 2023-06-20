@@ -13,24 +13,17 @@ public partial class Main : Control
 	[Export(PropertyHint.File)] private PackedScene LoadingErrorDialogueScene;
 
 	private Array<MovieEntry> MovieList = new();
-	private VBoxContainer PageList;
-	private MovieEntry CurrentMovie;
+	private Array Settings = new();
 	
+	private VBoxContainer PageList;
 	private Label CurrentMovieLabel;
 	private Label StatusBar;
 	private Button NewMovieButton;
 	private Button NewAndReplaceButton;
 	private Button RejectButton;
 
+	private MovieEntry CurrentMovie;
 	private SaveSystem DB;
-
-	public enum CurrentUser
-	{
-		ULenzo,
-		UJason,
-		UShar,
-		UDev
-	}
 
 	public override void _Ready()
 	{
@@ -53,8 +46,7 @@ public partial class Main : Control
 		RejectButton.Disabled = true;
 		
 		UpdateSB("We are going into the Spider-Verse...");
-		
-		DB.LoadSettings();
+		UpdateSettings(DB.LoadSettings());
 	}
 
 	public void CreateListUI(SaveSystem.DbActionsEnum RequestedList)
@@ -120,13 +112,14 @@ public partial class Main : Control
 
 	public void OpenSettingsConfigWindow()
 	{
-		SettingsConfig ConfigDialogue = (SettingsConfig)SettingsConfigDialogueScene.Instantiate();
+		SettingsConfig ConfigDialogue = (SettingsConfig) SettingsConfigDialogueScene.Instantiate();
 		ConfigDialogue.SettingsConfigDialogueClosed += SettingsConfigDialogueClosed;
 		AddChild(ConfigDialogue);
 	}
 
-	public void SettingsConfigDialogueClosed()
+	public void SettingsConfigDialogueClosed(int User, bool AutoSave, bool Online)
 	{
+		DB.CreateConfigFile(User, AutoSave, Online);
 		UpdateSB("Dimension locked in... Hello 42");
 	}
 
@@ -160,5 +153,10 @@ public partial class Main : Control
 	public void UpdateSB(string Message)
 	{
 		StatusBar.Text = Message;
+	}
+
+	public void UpdateSettings(Array NewSettings)
+	{
+		Settings = NewSettings;
 	}
 }
