@@ -37,6 +37,9 @@ if __name__ == '__main__':
     route_one = "ResourceFiles/BadMoviesListOld.txt"
     route_two = "ResourceFiles/MovieListFeed.txt"
 
+    data_cursor.execute("""DELETE FROM movies""")
+    print("End route -1")
+
     out_list = process_txt(route_one)
 
     for entry in out_list:
