@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
+using Environment = System.Environment;
 using FileAccess = Godot.FileAccess;
 
 public partial class SaveSystem : Control
@@ -39,20 +40,20 @@ public partial class SaveSystem : Control
 		DBActions.Add(DbActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList);
 		DBActions.Add(DbActionsEnum.LoadWatchedMovieList, LoadWatchedMovieList);
 		
-		if (File.Exists("SaveFile.db"))
+		string TempPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
+		string NuPath = Environment.ExpandEnvironmentVariables(TempPath);
+		
+		if (!File.Exists($"{NuPath}\\SaveFile.db"))
 		{
-			SQLiteConn = new SQLiteConnection("Data Source=SaveFile.db");
-		}
-
-		else
-		{
-			File.Create("SaveFile.db").Dispose();
-
-			SQLiteConn = new SQLiteConnection("Data Source=SaveFile.db");
-			// Tbh this should never happen. I have no clue how to prevent this from happening. 
-			// Code that will pull data from a remote location and fill the DB with update data
+			File.Create($"{NuPath}\\SaveFile.db").Dispose();
 		}
 		
+		else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}\\SaveFile.db"))
+		{
+			File.Copy("SaveFile.db", $"{NuPath}\\SaveFile.db");
+		}
+		
+		SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
 		SQLiteConn.Open();
 		CommandOutput = SQLiteConn.CreateCommand();
 	}
@@ -76,11 +77,23 @@ public partial class SaveSystem : Control
 
 		if (Err == Error.Ok)
 		{
-			foreach (string Setting in ConFile.GetSections())
+			string Sect = "Settings";
+			
+			if(ConFile.HasSection(Sect))
 			{
-				ReturnArray.Add((int) ConFile.GetValue(Setting, "User"));
-				ReturnArray.Add((bool) ConFile.GetValue(Setting, "AutoSave"));
-				ReturnArray.Add((bool) ConFile.GetValue(Setting, "Online"));
+				if (ConFile.HasSectionKey(Sect, "User") && ConFile.HasSectionKey(Sect, "AutoSave") &&
+				    ConFile.HasSectionKey(Sect, "Online"))
+				{
+					ReturnArray.Add((int)ConFile.GetValue(Sect, "User"));
+					ReturnArray.Add((bool)ConFile.GetValue(Sect, "AutoSave"));
+					ReturnArray.Add((bool)ConFile.GetValue(Sect, "Online"));
+				}
+				
+				else
+				{
+					EmitSignal(SignalName.UpdateStatusBar, "Your spider is in a different universe.");
+					EmitSignal(SignalName.CreateSettingsDialogue);
+				}
 			}
 		}
 
@@ -127,12 +140,10 @@ public partial class SaveSystem : Control
 		{
 			MovieEntryData DBEntry = CreateMovieEntryData();
 			OutputArray.Add(DBEntry);
-			// So that's the beginning...uhhhhhhhh.... what the hell am I gonna do to finish all this :(
-			// Gonna need to make a quick sandbox project so I can thoroughly debug and study the "GetValues" function.
 		}
 	}
 	
-	public void GetWatchedMovieList()
+	protected void GetWatchedMovieList()
 	{
 		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1";
 		CommandReader = CommandOutput.ExecuteReader();
