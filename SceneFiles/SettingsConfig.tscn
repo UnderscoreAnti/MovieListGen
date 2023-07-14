@@ -4,6 +4,7 @@
 
 [node name="SettingsConfig" type="Window"]
 title = "Setings Config"
+position = Vector2i(0, 36)
 size = Vector2i(350, 125)
 script = ExtResource("1_7gto4")
 
