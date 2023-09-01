@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://dietw504dc5w3"]
+
+[ext_resource type="Script" path="res://CodeFiles/UnwatchedMoviesUI.cs" id="1_bc052"]
+
+[node name="UnwatchedMoviesUI" type="VBoxContainer"]
+size_flags_vertical = 3
+script = ExtResource("1_bc052")
+
+[node name="PickMovieUI" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CurrentMovieTitle" type="Label" parent="PickMovieUI"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No Movie Picked"
+
+[node name="PickNewMovie" type="Button" parent="PickMovieUI"]
+layout_mode = 2
+text = "NEW MOVIE"
+
+[node name="PickNewMovieReplace" type="Button" parent="PickMovieUI"]
+layout_mode = 2
+text = "NEW MOVIE AND REPLACE"
+
+[node name="RejectMovie" type="Button" parent="PickMovieUI"]
+layout_mode = 2
+text = "CAN'T WATCH MOVIE"
+
+[node name="UwatchedListUI" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MainList" type="VBoxContainer" parent="UwatchedListUI"]
+layout_mode = 2
+size_flags_vertical = 3

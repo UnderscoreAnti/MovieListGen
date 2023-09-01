@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1v068hmlr4k4"]
+[gd_scene load_steps=8 format=3 uid="uid://d1v068hmlr4k4"]
 
 [ext_resource type="Script" path="res://CodeFiles/Main.cs" id="1_pplhp"]
 [ext_resource type="PackedScene" uid="uid://cqjklud3wl1hl" path="res://SceneFiles/MovieEntry.tscn" id="2_trkxv"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c6gvhe23srgto" path="res://SceneFiles/LoadingErrorDialogue.tscn" id="4_j07cr"]
 [ext_resource type="Script" path="res://CodeFiles/SaveSystem.cs" id="4_r7k8u"]
 [ext_resource type="PackedScene" uid="uid://cuib88i5i8xew" path="res://SceneFiles/SettingsConfig.tscn" id="4_sw2sl"]
+[ext_resource type="Script" path="res://CodeFiles/UnwatchedMoviesUI.cs" id="6_s7v2s"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -50,6 +51,7 @@ tab_3/title = "Settings"
 [node name="UnwatchedMoviesUI" type="VBoxContainer" parent="MainUI"]
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("6_s7v2s")
 
 [node name="PickMovieUI" type="HBoxContainer" parent="MainUI/UnwatchedMoviesUI"]
 layout_mode = 2
