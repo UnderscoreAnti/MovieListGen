@@ -1,12 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1v068hmlr4k4"]
+[gd_scene load_steps=4 format=3 uid="uid://d1v068hmlr4k4"]
 
 [ext_resource type="Script" path="res://CodeFiles/Main.cs" id="1_pplhp"]
-[ext_resource type="PackedScene" uid="uid://cqjklud3wl1hl" path="res://SceneFiles/MovieEntry.tscn" id="2_trkxv"]
-[ext_resource type="PackedScene" uid="uid://blp75sr6qskvp" path="res://SceneFiles/RejectMovieDialogue.tscn" id="3_agaka"]
-[ext_resource type="PackedScene" uid="uid://c6gvhe23srgto" path="res://SceneFiles/LoadingErrorDialogue.tscn" id="4_j07cr"]
 [ext_resource type="Script" path="res://CodeFiles/SaveSystem.cs" id="4_r7k8u"]
-[ext_resource type="PackedScene" uid="uid://cuib88i5i8xew" path="res://SceneFiles/SettingsConfig.tscn" id="4_sw2sl"]
-[ext_resource type="Script" path="res://CodeFiles/UnwatchedMoviesUI.cs" id="6_s7v2s"]
+
+[sub_resource type="Theme" id="Theme_mw2dn"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -16,12 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pplhp")
-MovieListIn = "res://ResourceFiles/MovieListFeed.txt"
-MovieListOut = "res://ResourceFiles/MovieListCompleted.txt"
-MovieEntryScene = ExtResource("2_trkxv")
-RejectMovieDialogueScene = ExtResource("3_agaka")
-SettingsConfigDialogueScene = ExtResource("4_sw2sl")
-LoadingErrorDialogueScene = ExtResource("4_j07cr")
 
 [node name="MainUI" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -31,56 +22,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TabContainer" type="MarginContainer" parent="MainUI"]
+[node name="TabContainer" type="HBoxContainer" parent="MainUI"]
 layout_mode = 2
+
+[node name="TabBar" type="TabBar" parent="MainUI/TabContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_mw2dn")
+tab_count = 3
+tab_0/title = "Pick Unwatched Movies"
+tab_1/title = "Review Watched Movies "
+tab_2/title = "View Rankings"
+
+[node name="SettingsButton" type="Button" parent="MainUI/TabContainer"]
+layout_mode = 2
+text = "Settings"
 
 [node name="StatusBar" type="Label" parent="MainUI/TabContainer"]
 clip_contents = true
 layout_mode = 2
-size_flags_horizontal = 8
-text = "DEMO TEXT"
-
-[node name="TabBar" type="TabBar" parent="MainUI/TabContainer"]
-layout_mode = 2
-tab_count = 4
-tab_0/title = "Pick Unwatched Movies"
-tab_1/title = "Review Watched Movies "
-tab_2/title = "View Rankings"
-tab_3/title = "Settings"
-
-[node name="UnwatchedMoviesUI" type="VBoxContainer" parent="MainUI"]
-layout_mode = 2
-size_flags_vertical = 3
-script = ExtResource("6_s7v2s")
-
-[node name="PickMovieUI" type="HBoxContainer" parent="MainUI/UnwatchedMoviesUI"]
-layout_mode = 2
-
-[node name="CurrentMovieTitle" type="Label" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
-layout_mode = 2
 size_flags_horizontal = 3
-text = "No Movie Picked"
-
-[node name="PickNewMovie" type="Button" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
-layout_mode = 2
-text = "NEW MOVIE"
-
-[node name="PickNewMovieReplace" type="Button" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
-layout_mode = 2
-text = "NEW MOVIE AND REPLACE"
-
-[node name="RejectMovie" type="Button" parent="MainUI/UnwatchedMoviesUI/PickMovieUI"]
-layout_mode = 2
-text = "CAN'T WATCH MOVIE"
-
-[node name="UwatchedListUI" type="ScrollContainer" parent="MainUI/UnwatchedMoviesUI"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="MainList" type="VBoxContainer" parent="MainUI/UnwatchedMoviesUI/UwatchedListUI"]
-layout_mode = 2
-size_flags_vertical = 3
+text = "DEMO TEXT"
+horizontal_alignment = 2
+uppercase = true
 
 [node name="SaveSystem" type="Control" parent="."]
 anchors_preset = 0
@@ -88,7 +52,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_r7k8u")
 
-[connection signal="pressed" from="MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovie" to="." method="PickNewMovie"]
-[connection signal="pressed" from="MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovieReplace" to="." method="PickNewMovieAndReplace"]
-[connection signal="pressed" from="MainUI/UnwatchedMoviesUI/PickMovieUI/RejectMovie" to="." method="RejectMovie"]
+[connection signal="tab_changed" from="MainUI/TabContainer/TabBar" to="." method="OnTabChanged"]
+[connection signal="tab_clicked" from="MainUI/TabContainer/TabBar" to="." method="OnTabChanged"]
+[connection signal="pressed" from="MainUI/TabContainer/SettingsButton" to="." method="OnSettingsPressed"]
 [connection signal="UpdateStatusBar" from="SaveSystem" to="." method="UpdateSB"]

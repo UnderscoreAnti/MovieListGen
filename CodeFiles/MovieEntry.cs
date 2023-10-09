@@ -70,8 +70,6 @@ public partial class MovieEntry : Label
 		MovieID = Data.MovieID;
 	}
 	
-	
-
 	private int GenerateGeneralRank(int JR, int LR, int SR)
 	{
 		return (JR + LR + SR) / 3;

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
 using Environment = System.Environment;
-using FileAccess = Godot.FileAccess;
 
 public partial class SaveSystem : Control
 {
@@ -64,10 +63,10 @@ public partial class SaveSystem : Control
 		SQLiteConn.Dispose();
 	}
 
-	public Array LoadSettings()
+	public Array<Variant> LoadSettings()
 	{
 		Error Err = ConFile.Load("user://Settings.cfg");
-		Array ReturnArray = new Array();
+		Array<Variant> ReturnArray = new();
 
 		if (Err != Error.Ok)
 		{
@@ -98,18 +97,39 @@ public partial class SaveSystem : Control
 		}
 
 		return ReturnArray;
-
 	}
 
-	public void CreateConfigFile(int User, bool AutoSave, bool Online)
+	public void CreateConfigFile(Godot.Collections.Dictionary<string, Variant> Set)
 	{
-		ConfigFile NewF = new();
+		Error Err = ConFile.Load("user://Settings.cfg");
+		if (Err == Error.Ok)
+		{
+			UpdateConfigFile(Set);
+		}
 		
-		NewF.SetValue("Settings", "User", User);
-		NewF.SetValue("Settings", "AutoSave", AutoSave);
-		NewF.SetValue("Settings", "Online", Online);
+		ConFile.SetValue("Settings", "User", Set["User"]);
+		ConFile.SetValue("Settings", "AutoSave", Set["AutoSave"]);
+		ConFile.SetValue("Settings", "Online", Set["Online"]);
+		
+		ConFile.Save("user://Settings.cfg");
+	}
 
-		NewF.Save("user://Settings.cfg");
+	public void UpdateConfigFile(Godot.Collections.Dictionary<string, Variant> Set)
+	{
+		if ((int) ConFile.GetValue("Settings", "User") != (int) Set["User"])
+		{
+			ConFile.SetValue("Settings", "User", (int) Set["User"]);
+		}
+		if ((bool) ConFile.GetValue("Settings", "AutoSave") != (bool) Set["AutoSave"])
+		{
+			ConFile.SetValue("Settings", "AutoSave", (bool) Set["AutoSave"]);
+		}
+		if ((bool) ConFile.GetValue("Settings", "Online") != (bool) Set["Online"])
+		{
+			ConFile.SetValue("Settings", "Online", (bool) Set["Online"]);
+		}
+
+		ConFile.Save("user://Settings.cfg");
 	}
 
 	public void DBActionIO(DbActionsEnum ACTION)
@@ -141,6 +161,8 @@ public partial class SaveSystem : Control
 			MovieEntryData DBEntry = CreateMovieEntryData();
 			OutputArray.Add(DBEntry);
 		}
+		
+		CommandReader.Close();
 	}
 	
 	protected void GetWatchedMovieList()

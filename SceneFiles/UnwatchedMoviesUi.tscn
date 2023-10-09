@@ -34,3 +34,7 @@ horizontal_scroll_mode = 0
 [node name="MainList" type="VBoxContainer" parent="UwatchedListUI"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[connection signal="pressed" from="PickMovieUI/PickNewMovie" to="." method="PickNewMovie"]
+[connection signal="pressed" from="PickMovieUI/PickNewMovieReplace" to="." method="PickNewMovieAndReplace"]
+[connection signal="pressed" from="PickMovieUI/RejectMovie" to="." method="RejectMovie"]

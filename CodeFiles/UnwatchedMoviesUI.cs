@@ -4,8 +4,11 @@ using Godot.Collections;
 
 public partial class UnwatchedMoviesUI : VBoxContainer
 {
-	[Export(PropertyHint.File)] private PackedScene MovieEntryScene;
-	[Export(PropertyHint.File)] private PackedScene RejectMovieDialogueScene;
+	[Signal] public delegate void UpdateStatusBarEventHandler(string Message);
+	[Signal] public delegate void OpenRankUIEventHandler(int Menu);
+	
+	private PackedScene MovieEntryScene = (PackedScene) ResourceLoader.Load("uid://cqjklud3wl1hl");
+	private PackedScene RejectMovieDialogueScene = (PackedScene) ResourceLoader.Load("uid://blp75sr6qskvp");
 	
 	private Array<MovieEntry> MovieList = new();
 	
@@ -16,28 +19,20 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	private Label CurrentMovieLabel;
 	
 	private MovieEntry CurrentMovie;
-	
-	public override void _Ready()
-	{
-	}
 
-	public void GenerateScreenContent(SaveSystem DB, SaveSystem.DbActionsEnum RequestedList)
+	public void GenerateScreenContent(Array<MovieEntryData> RequestedList)
 	{
-		NewMovieButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovie");
-		NewAndReplaceButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/PickNewMovieReplace");
-		RejectButton = (Button)GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/RejectMovie");
+		NewMovieButton = (Button) GetNode("PickMovieUI/PickNewMovie");
+		NewAndReplaceButton = (Button) GetNode("PickMovieUI/PickNewMovieReplace");
+		RejectButton = (Button) GetNode("PickMovieUI/RejectMovie");
 		
-		CurrentMovieLabel = (Label) GetNode("MainUI/UnwatchedMoviesUI/PickMovieUI/CurrentMovieTitle");
+		CurrentMovieLabel = (Label) GetNode("PickMovieUI/CurrentMovieTitle");
 		
 		NewAndReplaceButton.Disabled = true;
 		RejectButton.Disabled = true;
 		
-		PageList = (VBoxContainer) GetNode("MainUI/UnwatchedMoviesUI/UwatchedListUI/MainList");
-
-		DB.DBActionIO(RequestedList);
-		
-		Array<MovieEntryData> UIElementData = DB.ReturnIO();
-		foreach (MovieEntryData ElementData in UIElementData)
+		PageList = (VBoxContainer) GetNode("UwatchedListUI/MainList");
+		foreach (MovieEntryData ElementData in RequestedList)
 		{
 			MovieEntry NewEntry = (MovieEntry) MovieEntryScene.Instantiate();
 			NewEntry.ProcessMovieData(ElementData);
@@ -51,7 +46,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	{
 		if (NewMovieButton.Text == "RANK MOVIE")
 		{
-			// FunctionCall
+			EmitSignal(SignalName.OpenRankUI, (int) Main.UIEnum.Rank);
 			return;
 		}
 		
@@ -61,7 +56,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		MovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
 		
-		UpdateSB("Versed...");
+		EmitSignal(SignalName.UpdateStatusBar, "Versed...");
 
 		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle}";
 		NewAndReplaceButton.Disabled = false;
@@ -79,7 +74,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		MovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
 		
-		UpdateSB("Re-Versed...");
+		EmitSignal(SignalName.UpdateStatusBar, "Re-Versed...");
 		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle}";
 		NewAndReplaceButton.Disabled = true;
 	}
@@ -95,7 +90,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	{
 		if (InText == String.Empty)
 		{
-			UpdateSB("Operation aborted!");
+			EmitSignal(SignalName.UpdateStatusBar, "Operation aborted!");
 		}
 		else
 		{
@@ -104,7 +99,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 			
 			NewAndReplaceButton.Disabled = true;
 			RejectButton.Disabled = true;
-			UpdateSB("An alternate universe 'you' is watching that movie right now...");
+			EmitSignal(SignalName.UpdateStatusBar, "An alternate universe 'you' is watching that movie right now...");
 
 			CurrentMovieLabel.Text = "No Movie Picked";
 		}
@@ -116,10 +111,5 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		{
 			child.QueueFree();
 		}
-	}
-
-	public void UpdateSB(string Message)
-	{
-		// TODO 
 	}
 }
