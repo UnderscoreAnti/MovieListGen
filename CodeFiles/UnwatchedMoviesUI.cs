@@ -7,10 +7,10 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	[Signal] public delegate void UpdateStatusBarEventHandler(string Message);
 	[Signal] public delegate void OpenRankUIEventHandler(int Menu);
 	
-	private PackedScene MovieEntryScene = (PackedScene) ResourceLoader.Load("uid://cqjklud3wl1hl");
+	private PackedScene MovieEntryScene = (PackedScene) ResourceLoader.Load("uid://dsq3udxw781px");
 	private PackedScene RejectMovieDialogueScene = (PackedScene) ResourceLoader.Load("uid://blp75sr6qskvp");
 	
-	private Array<MovieEntry> MovieList = new();
+	private Array<UnwatchedMovieEntry> MovieList = new();
 	
 	private Button NewMovieButton;
 	private Button NewAndReplaceButton;
@@ -18,7 +18,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	private VBoxContainer PageList;
 	private Label CurrentMovieLabel;
 	
-	private MovieEntry CurrentMovie;
+	private UnwatchedMovieEntry CurrentMovie;
 
 	public void GenerateScreenContent(Array<MovieEntryData> RequestedList)
 	{
@@ -34,7 +34,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		PageList = (VBoxContainer) GetNode("UwatchedListUI/MainList");
 		foreach (MovieEntryData ElementData in RequestedList)
 		{
-			MovieEntry NewEntry = (MovieEntry) MovieEntryScene.Instantiate();
+			UnwatchedMovieEntry NewEntry = (UnwatchedMovieEntry) MovieEntryScene.Instantiate();
 			NewEntry.ProcessMovieData(ElementData);
 			NewEntry.GenerateText();
 			MovieList.Add(NewEntry);
@@ -53,7 +53,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		Random RNGesus = new();
 		int ListCount = MovieList.Count;
 		int MovieIndex = RNGesus.Next(ListCount);
-		MovieEntry Entry = MovieList[MovieIndex];
+		UnwatchedMovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
 		
 		EmitSignal(SignalName.UpdateStatusBar, "Versed...");
@@ -71,7 +71,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		Random RNGesus = new();
 		int ListCount = MovieList.Count;
 		int MovieIndex = RNGesus.Next(ListCount);
-		MovieEntry Entry = MovieList[MovieIndex];
+		UnwatchedMovieEntry Entry = MovieList[MovieIndex];
 		CurrentMovie = Entry;
 		
 		EmitSignal(SignalName.UpdateStatusBar, "Re-Versed...");

@@ -1,8 +1,11 @@
 using Godot;
 using System;
 
-public partial class MovieEntry : Label
+public partial class MovieEntry : MarginContainer
 {
+
+	[Export()] public Godot.Collections.Array<Label> TextNodes = new(); 
+	
 	public int MovieID;
 
 	public bool AlreadyWatched = false;
@@ -17,21 +20,15 @@ public partial class MovieEntry : Label
 	public int LenzoRank;
 	public int JasonRank;
 	
+	public virtual void GenerateText()
+	{
+		GD.Print($"Empty Generate Text Function in Type: {GetType().ToString()}");
+	}
+	
 	public void UpdateName(string NewName)
 	{
 		MovieTitle = NewName;
 	}
-
-	public void GenerateText()
-	{
-		Text = $"{MovieTitle}";
-
-		if (AlreadyWatched)
-		{
-			Text += $" | RANK: {GeneralRanking}";
-		}
-	}
-	
 
 	public MovieEntryData GenerateEntryData()
 	{

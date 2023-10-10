@@ -29,6 +29,10 @@ def create_id(check_arr):
     return new_id
 
 
+def run_to_nowhere(nowhere_path):
+    pass
+
+
 if __name__ == '__main__':
     id_arr = []
     new_conn = sqlite3.connect("SaveFile.db")
