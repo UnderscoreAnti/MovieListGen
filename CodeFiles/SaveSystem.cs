@@ -74,9 +74,12 @@ public partial class SaveSystem : Control
 			}
 		}
 		
-		SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
-		SQLiteConn.Open();
-		CommandOutput = SQLiteConn.CreateCommand();
+		if(NuPath != "Nothing!")
+		{
+			SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
+			SQLiteConn.Open();
+			CommandOutput = SQLiteConn.CreateCommand();
+		}
 	}
 	
 	public override void _ExitTree()
