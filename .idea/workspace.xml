@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57ac04d7-ae1a-4f80-82d4-eb2d3a0f0253" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old.5" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj.old.5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SaveFile.db" beforeDir="false" afterPath="$PROJECT_DIR$/SaveFile.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SceneFiles/Main.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/SceneFiles/Main.tscn" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +26,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2OjxUWkMVp3M3ss9ByVjgtMn5OC" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -30,7 +40,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sbell/Documents/CS/MovieListGen/SaveFile.db&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;TheBigLebowski&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/underscoreanti&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,

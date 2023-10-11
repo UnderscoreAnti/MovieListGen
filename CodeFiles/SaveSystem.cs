@@ -39,17 +39,39 @@ public partial class SaveSystem : Control
 		DBActions.Add(DbActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList);
 		DBActions.Add(DbActionsEnum.LoadWatchedMovieList, LoadWatchedMovieList);
 		
-		string TempPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
-		string NuPath = Environment.ExpandEnvironmentVariables(TempPath);
-		
-		if (!File.Exists($"{NuPath}\\SaveFile.db"))
+		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
+		string LinPath = @"./.local/share/godot/app_userdata/MovieListGenerator";
+
+		string NuPath = "Nothing!";
+
+		if (OS.GetName() == "Linux")
 		{
-			File.Create($"{NuPath}\\SaveFile.db").Dispose();
+			NuPath = LinPath;
+			
+			if(!File.Exists($"{NuPath}/SaveFile.db"))
+			{
+				File.Create($"{NuPath}/SaveFile.db").Dispose();
+			}
+			
+			else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}/SaveFile.db"))
+			{
+				File.Copy("SaveFile.db", $"{NuPath}/SaveFile.db");
+			}
 		}
 		
-		else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}\\SaveFile.db"))
+		else if (OS.GetName() == "Windows" || OS.GetName() == "UWP")
 		{
-			File.Copy("SaveFile.db", $"{NuPath}\\SaveFile.db");
+			NuPath = Environment.ExpandEnvironmentVariables(WinPath);
+
+			if (!File.Exists($"{NuPath}\\SaveFile.db"))
+			{
+				File.Create($"{NuPath}\\SaveFile.db").Dispose();
+			}
+
+			else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}\\SaveFile.db"))
+			{
+				File.Copy("SaveFile.db", $"{NuPath}\\SaveFile.db");
+			}
 		}
 		
 		SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");

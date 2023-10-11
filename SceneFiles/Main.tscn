@@ -55,4 +55,3 @@ script = ExtResource("4_r7k8u")
 [connection signal="tab_changed" from="MainUI/TabContainer/TabBar" to="." method="OnTabChanged"]
 [connection signal="tab_clicked" from="MainUI/TabContainer/TabBar" to="." method="OnTabChanged"]
 [connection signal="pressed" from="MainUI/TabContainer/SettingsButton" to="." method="OnSettingsPressed"]
-[connection signal="UpdateStatusBar" from="SaveSystem" to="." method="UpdateSB"]
