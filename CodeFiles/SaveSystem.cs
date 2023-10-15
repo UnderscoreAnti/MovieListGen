@@ -80,6 +80,11 @@ public partial class SaveSystem : Control
 			SQLiteConn.Open();
 			CommandOutput = SQLiteConn.CreateCommand();
 		}
+
+		else
+		{
+			EmitSignal(SignalName.UpdateStatusBar, "CANON EVENT DISRUPTED: FILE SYSTEM NOT DETECTED");
+		}
 	}
 	
 	public override void _ExitTree()
@@ -200,6 +205,8 @@ public partial class SaveSystem : Control
 			MovieEntryData DBEntry = CreateMovieEntryData();
 			OutputArray.Add(DBEntry);
 		}
+		
+		CommandReader.Close();
 	}
 
 	private MovieEntryData CreateMovieEntryData()

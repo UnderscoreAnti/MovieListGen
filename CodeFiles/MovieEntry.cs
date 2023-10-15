@@ -3,8 +3,7 @@ using System;
 
 public partial class MovieEntry : MarginContainer
 {
-
-	[Export()] public Godot.Collections.Array<Label> TextNodes = new(); 
+	[Export()] public Godot.Collections.Array<Label> TextNodes = new();
 	
 	public int MovieID;
 
@@ -19,6 +18,8 @@ public partial class MovieEntry : MarginContainer
 	public int SharRank;
 	public int LenzoRank;
 	public int JasonRank;
+
+	protected int DevRank;
 	
 	public virtual void GenerateText()
 	{
@@ -66,7 +67,7 @@ public partial class MovieEntry : MarginContainer
 		
 		MovieID = Data.MovieID;
 	}
-	
+
 	private int GenerateGeneralRank(int JR, int LR, int SR)
 	{
 		return (JR + LR + SR) / 3;

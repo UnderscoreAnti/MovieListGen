@@ -163,14 +163,21 @@ public partial class Main : Control
 	public void GetWatchedUI()
 	{
 		UpdateSB("Into the Watched Verse...");
+		DB.DBActionIO(SaveSystem.DbActionsEnum.LoadWatchedMovieList);
+		Array<MovieEntryData> UIElementData = DB.ReturnIO();
+		
 		WatchedUI = (WatchedMoviesUI) WatchedMovieScene.Instantiate();
 		MainUINode.AddChild(WatchedUI);
+		
+		WatchedUI.SetCurrentUser((int) SettingsDict["User"]);
+		WatchedUI.GenerateScreenContent(UIElementData);
 		UpdateSB("Across the Watched Verse...");
 	}
 
 	public void GetRankedUI()
 	{
 		UpdateSB("Into the Ranked Verse...");
+		DB.DBActionIO(SaveSystem.DbActionsEnum.LoadWatchedMovieList);
 		RankUI = (ViewRanksUI) ViewRankScene.Instantiate();
 		MainUINode.AddChild(RankUI);
 		UpdateSB("Across the Ranked Verse...");
@@ -194,9 +201,8 @@ public partial class Main : Control
 		if (Sett.Count != 0)
 		{
 			SettingsDialogue.UpdateUI((int) Sett[0]);
-				SettingsDialogue.UpdateUI((bool) Sett[1], true);
+			SettingsDialogue.UpdateUI((bool) Sett[1], true);
 			SettingsDialogue.UpdateUI((bool) Sett[2], false);
-			GD.Print("Dead Code To Do Nothing");
 		}
 		UpdateSB("Across the Settings Verse...");
 	}

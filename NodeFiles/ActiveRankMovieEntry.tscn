@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm05gjkbn0umm"]
+
+[ext_resource type="Script" path="res://CodeFiles/ActiveRankMovieEntry.cs" id="1_hrww1"]
+
+[node name="ActiveRankMovieEntry" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_hrww1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RankNumber" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "1000"
+visible_characters = 4
+
+[node name="MovieTitle" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Movie Entry Title"
+uppercase = true
+visible_characters = 128
+visible_ratio = 7.52941
+
+[node name="ReviewMovieButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Review Movie"
+
+[node name="MovieRePreview" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "GONNA FORCE THE MAX AMOUT OF CHARS!"
+horizontal_alignment = 2
+clip_text = true
+text_overrun_behavior = 3
+visible_characters = 32
+visible_ratio = 1.77778
+
+[connection signal="pressed" from="HBoxContainer/ReviewMovieButton" to="." method="OnReviewMovieButtonPressed"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cqjklud3wl1hl"]
 
-[ext_resource type="Script" path="res://CodeFiles/MovieEntry.cs" id="1_j5yrj"]
+[ext_resource type="Script" path="res://CodeFiles/MovieEntry.cs" id="1_g534c"]
 
 [node name="MovieEntry" type="MarginContainer" node_paths=PackedStringArray("TextNodes")]
 anchors_preset = 15
@@ -8,7 +8,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_j5yrj")
+script = ExtResource("1_g534c")
 TextNodes = [NodePath("MainText")]
 
 [node name="MainText" type="Label" parent="."]

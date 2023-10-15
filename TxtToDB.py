@@ -29,10 +29,6 @@ def create_id(check_arr):
     return new_id
 
 
-def run_to_nowhere(nowhere_path):
-    pass
-
-
 if __name__ == '__main__':
     id_arr = []
     new_conn = sqlite3.connect("SaveFile.db")
@@ -54,8 +50,7 @@ if __name__ == '__main__':
         data_cursor.execute("""INSERT INTO movies VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", entry_data)
         new_conn.commit()
 
-
-    print("\nend route one\n")
+    print("\nend route 1\n")
 
     out_list_two = process_txt(route_two)
 

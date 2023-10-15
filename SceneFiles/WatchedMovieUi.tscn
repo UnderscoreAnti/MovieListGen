@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d350d0od5ay13"]
 
-[ext_resource type="Script" path="res://CodeFiles/WatchedMoviesUI.cs" id="1_4mjwv"]
+[ext_resource type="Script" path="res://CodeFiles/WatchedMoviesUI.cs" id="1_r5vt3"]
 
 [node name="WatchedMovieUI" type="VBoxContainer"]
 anchors_preset = 15
@@ -8,9 +8,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_4mjwv")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_r5vt3")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-text = "Watched Movies UI"
+text = "Watched Movies"
 horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MainList" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

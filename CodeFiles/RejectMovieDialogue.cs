@@ -34,4 +34,10 @@ public partial class RejectMovieDialogue : Window
 		EmitSignal(SignalName.RejectMovieDialogueClosed, TextBox.Text);
 		QueueFree();
 	}
+
+	public void PlaceTextInTextbox(string Text)
+	{
+		TextEdit TE = (TextEdit) GetNode("MarginContainer/TextEdit");
+		TE.Text = Text;
+	}
 }
