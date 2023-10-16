@@ -22,13 +22,13 @@ public partial class ActiveRankMovieEntry : MovieEntry
 
 	public override void GenerateText()
 	{
-		ProfileDict = new() {{0, LenzoRank}, {1, JasonRank}, {2, SharRank}, {3, DevRank}};
+		ProfileDict = new() {{0, LenzoRank}, {1, JasonRank}, {2, SharRank}, {3, GeneralRanking}};
 		
 		RankNumberNode = (Label) GetNode("HBoxContainer/RankNumber");
 		MovieTitleNode = (Label) GetNode("HBoxContainer/MovieTitle");
 		MovieRePreNode = (Label) GetNode("HBoxContainer/MovieRePreview");
 		RankMovieButton = (Button) GetNode("HBoxContainer/ReviewMovieButton");
-
+		
 		RankNumberNode.Text = GenerateMovieRank(ProfileDict[CurrentUser]);
 		MovieTitleNode.Text = MovieTitle;
 		MovieRePreNode.Text = GenerateMovieReviewPreview(MovieReview);

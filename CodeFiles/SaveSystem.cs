@@ -38,13 +38,22 @@ public partial class SaveSystem : Control
 		
 		DBActions.Add(DbActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList);
 		DBActions.Add(DbActionsEnum.LoadWatchedMovieList, LoadWatchedMovieList);
-		
+	}
+	
+	public override void _ExitTree()
+	{
+		CloseDBConnection();
+	}
+
+	public void GetDataFromDB(bool isDevEnabled=false)
+	{
 		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
 		string LinPath = @"./.local/share/godot/app_userdata/MovieListGenerator";
 
-		string NuPath = "Nothing!";
+		string NuPath = String.Empty;
+		string CurrentOS = OS.GetName();
 
-		if (OS.GetName() == "Linux")
+		if (CurrentOS == "Linux")
 		{
 			NuPath = LinPath;
 			
@@ -59,7 +68,7 @@ public partial class SaveSystem : Control
 			}
 		}
 		
-		else if (OS.GetName() == "Windows" || OS.GetName() == "UWP")
+		else if (CurrentOS == "Windows" || CurrentOS == "UWP")
 		{
 			NuPath = Environment.ExpandEnvironmentVariables(WinPath);
 
@@ -74,9 +83,16 @@ public partial class SaveSystem : Control
 			}
 		}
 		
-		if(NuPath != "Nothing!")
+		if(NuPath != String.Empty && !isDevEnabled)
 		{
 			SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
+			SQLiteConn.Open();
+			CommandOutput = SQLiteConn.CreateCommand();
+		}
+		
+		else if (NuPath != String.Empty && isDevEnabled)
+		{
+			SQLiteConn = new SQLiteConnection("Data Source=SaveFile.db");
 			SQLiteConn.Open();
 			CommandOutput = SQLiteConn.CreateCommand();
 		}
@@ -86,8 +102,8 @@ public partial class SaveSystem : Control
 			EmitSignal(SignalName.UpdateStatusBar, "CANON EVENT DISRUPTED: FILE SYSTEM NOT DETECTED");
 		}
 	}
-	
-	public override void _ExitTree()
+
+	public void CloseDBConnection()
 	{
 		SQLiteConn.Close();
 		SQLiteConn.Dispose();
@@ -96,6 +112,7 @@ public partial class SaveSystem : Control
 	public Array<Variant> LoadSettings()
 	{
 		Error Err = ConFile.Load("user://Settings.cfg");
+		
 		Array<Variant> ReturnArray = new();
 
 		if (Err != Error.Ok)

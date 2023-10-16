@@ -70,10 +70,16 @@ public partial class Main : Control
 
 		UpdateSB("Entering the Spider-Verse...");
 		
-		ChangeContainer(UIEnum.Unwatched);
-		
 		UpdateSB("We are going into the Spider-Verse...");
 		UpdateSettings(DB.LoadSettings());
+		
+		if((int) SettingsDict["User"] == 3)
+			DB.GetDataFromDB(true);
+		
+		else
+			DB.GetDataFromDB();
+		
+		ChangeContainer(UIEnum.Unwatched);
 	}
 
 	public void ChangeContainer(UIEnum NextTab = UIEnum.Default)

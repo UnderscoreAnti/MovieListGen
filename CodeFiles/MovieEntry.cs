@@ -19,7 +19,6 @@ public partial class MovieEntry : MarginContainer
 	public int LenzoRank;
 	public int JasonRank;
 
-	protected int DevRank;
 	
 	public virtual void GenerateText()
 	{
