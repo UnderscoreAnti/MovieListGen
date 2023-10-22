@@ -5,29 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57ac04d7-ae1a-4f80-82d4-eb2d3a0f0253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MovieListGen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MovieListGen.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a5b451b4-001e-410e-ba04-8009dc3413e9.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b478083c-e942-436d-be9a-1360449b83ca.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ca094f3f-14bf-43f7-954c-a5dcbf66002e.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CodeFiles/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/Main.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CodeFiles/WatchedMoviesUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/WatchedMoviesUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old.1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old.2" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj.old.2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old.3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old.4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj.old.5" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/MovieListGenerator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceFiles/BadMoviesListOld.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/BadMoviesListOld.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SaveFile.db" beforeDir="false" afterPath="$PROJECT_DIR$/SaveFile.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SceneFiles/WatchedMovieUi.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/SceneFiles/WatchedMovieUi.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TxtToDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/TxtToDB.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,11 +80,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.TxtToDB" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -121,8 +97,5 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/TxtToDB_py$TxtToDB.coverage" NAME="TxtToDB Coverage Results" MODIFIED="1697054692199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

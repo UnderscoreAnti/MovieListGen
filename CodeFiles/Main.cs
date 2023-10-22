@@ -67,6 +67,7 @@ public partial class Main : Control
 		
 		DB = (SaveSystem) GetNode("SaveSystem");
 		DB.CreateSettingsDialogue += OnSettingsPressed;
+		DB.ForceCreateSettingsDialogue += CreateStartConfig;
 
 		UpdateSB("Entering the Spider-Verse...");
 		
@@ -137,6 +138,7 @@ public partial class Main : Control
 
 		Random RNGesus = new();
 		int Randy = RNGesus.Next(999999);
+		
 		UpdateSB($"Dimension locked in... Hello Dimension Number: {Randy}");
 
 	}
@@ -193,6 +195,15 @@ public partial class Main : Control
 	public void OnTabChanged(int TabNumber)
 	{
 		ChangeContainer((UIEnum) TabNumber);
+	}
+
+	public void CreateStartConfig()
+	{
+		UpdateSB("Into the Settings Verse...");
+		SettingsDialogue = (SettingsConfig) SettingsConfigDialogueScene.Instantiate();
+		
+		SettingsDialogue.SettingsConfigDialogueClosed += UpdateSettings;
+		AddChild(SettingsDialogue);
 	}
 
 	public void OnSettingsPressed()

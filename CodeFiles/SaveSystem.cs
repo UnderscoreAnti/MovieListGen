@@ -3,6 +3,7 @@ using System;
 using System.Data.SQLite;
 using System.IO;
 using System.Collections.Generic;
+using System.Data;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
 using Environment = System.Environment;
@@ -11,6 +12,8 @@ public partial class SaveSystem : Control
 {
 	[Signal] public delegate void UpdateStatusBarEventHandler(string Message);
 	[Signal] public delegate void CreateSettingsDialogueEventHandler();
+	
+	[Signal] public delegate void ForceCreateSettingsDialogueEventHandler();
 	
 	private SQLiteConnection SQLiteConn;
 	private SQLiteCommand CommandOutput;
@@ -62,7 +65,7 @@ public partial class SaveSystem : Control
 		if (Err != Error.Ok)
 		{
 			EmitSignal(SignalName.UpdateStatusBar, "Canon Event Disruption: Settings file");
-			EmitSignal(SignalName.CreateSettingsDialogue);
+			EmitSignal(SignalName.ForceCreateSettingsDialogue);
 		}
 
 		if (Err == Error.Ok)
@@ -126,17 +129,21 @@ public partial class SaveSystem : Control
 	public void GetDataFromDB(bool isDevEnabled=false)
 	{
 		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
-		string LinPath = @"./.local/share/godot/app_userdata/MovieListGenerator";
+		string LinPath = @"godot/app_userdata/MovieListGenerator";
 
 		string NuPath = String.Empty;
 		string CurrentOS = OS.GetName();
 
+		if (SQLiteConn != null && SQLiteConn.State != ConnectionState.Closed)
+			CloseDBConnection();
+
 		if (CurrentOS == "Linux")
 		{
-			NuPath = LinPath;
+			NuPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 			
-			if(!File.Exists($"{NuPath}/SaveFile.db"))
+			if(!File.Exists($"{NuPath}/{LinPath}/SaveFile.db"))
 			{
+				GD.Print("Creating new file");
 				File.Create($"{NuPath}/SaveFile.db").Dispose();
 			}
 			
@@ -144,6 +151,8 @@ public partial class SaveSystem : Control
 			{
 				File.Copy("SaveFile.db", $"{NuPath}/SaveFile.db");
 			}
+
+			NuPath += $"/{LinPath}";
 		}
 		
 		else if (CurrentOS == "Windows" || CurrentOS == "UWP")
@@ -163,7 +172,12 @@ public partial class SaveSystem : Control
 		
 		if(NuPath != String.Empty && !isDevEnabled)
 		{
-			SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
+			if(CurrentOS == "Windows" || CurrentOS == "UWP")
+				SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
+			
+			if(CurrentOS == "Linux")
+				SQLiteConn = new SQLiteConnection($"Data Source={NuPath}/SaveFile.db");
+			
 			SQLiteConn.Open();
 			CommandOutput = SQLiteConn.CreateCommand();
 		}
