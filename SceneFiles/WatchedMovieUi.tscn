@@ -12,10 +12,24 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_r5vt3")
 
-[node name="Label" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
 text = "Watched Movies"
 horizontal_alignment = 1
+
+[node name="Save" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "SEND TO DB"
+
+[node name="Rank" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "RANK MODE"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
@@ -25,3 +39,11 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[connection signal="pressed" from="HBoxContainer/Save" to="." method="OnSave"]
+[connection signal="pressed" from="HBoxContainer/Rank" to="." method="OnModeChanged"]
+[connection signal="timeout" from="Timer" to="." method="OnSave"]

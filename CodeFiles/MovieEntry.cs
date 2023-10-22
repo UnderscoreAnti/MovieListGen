@@ -13,12 +13,8 @@ public partial class MovieEntry : MarginContainer
 	public string MovieRejectReason;
 	public string MovieReview = "Movie not reviewed";
 	public string MovieTitle;
-	
-	public int GeneralRanking;
-	public int SharRank;
-	public int LenzoRank;
-	public int JasonRank;
 
+	public int[] Ranks = new int[4];
 	
 	public virtual void GenerateText()
 	{
@@ -40,10 +36,10 @@ public partial class MovieEntry : MarginContainer
 		NewData.IsFinable = NewData.BoolToInt(IsFindable);
 		NewData.MovieReview = MovieReview;
 		
-		NewData.GeneralMovieRanking = GeneralRanking;
-		NewData.SharMovieRanking = SharRank;
-		NewData.LenzoMovieRanking = LenzoRank;
-		NewData.JasonMovieRanking = JasonRank;
+		NewData.LenzoMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Lenzo];
+		NewData.JasonMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Jason];
+		NewData.ShaiMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Shai];
+		NewData.GeneralMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Lenzo];
 
 		NewData.MovieID = MovieID;
 		
@@ -58,11 +54,12 @@ public partial class MovieEntry : MarginContainer
 		IsFindable = Data.IntToBool(Data.IsFinable);
 		MovieReview = Data.MovieReview;
 
-		SharRank = Data.SharMovieRanking;
-		LenzoRank = Data.LenzoMovieRanking;
-		JasonRank = Data.JasonMovieRanking;
+		Ranks[(int) SaveSystem.UsersEnum.Shai] = Data.ShaiMovieRanking;
+		Ranks[(int) SaveSystem.UsersEnum.Lenzo] = Data.LenzoMovieRanking;
+		Ranks[(int) SaveSystem.UsersEnum.Jason] = Data.JasonMovieRanking;
 
-		GeneralRanking = GenerateGeneralRank(JasonRank, LenzoRank, SharRank);
+		Ranks[(int) SaveSystem.UsersEnum.Dev] = GenerateGeneralRank(Ranks[(int) SaveSystem.UsersEnum.Jason], 
+			Ranks[(int) SaveSystem.UsersEnum.Lenzo], Ranks[(int) SaveSystem.UsersEnum.Shai]);
 		
 		MovieID = Data.MovieID;
 	}
@@ -74,7 +71,7 @@ public partial class MovieEntry : MarginContainer
 
 	public void GeneralRankUpdated(int JR, int LR, int SR)
 	{
-		GeneralRanking = GenerateGeneralRank(JR, LR, SR);
+		Ranks[(int) SaveSystem.UsersEnum.Dev] = GenerateGeneralRank(JR, LR, SR);
 	}
 
 }

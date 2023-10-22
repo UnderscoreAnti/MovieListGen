@@ -84,7 +84,6 @@ public partial class Main : Control
 
 	public void ChangeContainer(UIEnum NextTab = UIEnum.Default)
 	{
-		
 		MarginContainer LoaderUI = (MarginContainer) LoaderScene.Instantiate();
 		MainUINode.AddChild(LoaderUI);
 		
@@ -103,14 +102,10 @@ public partial class Main : Control
 		}
 		
 		else if (NextTab == UIEnum.Default)
-		{
 			UpdateSB("Canon Event Disrupted! Container couldn't be changed.");
-		}
 
 		else
-		{
 			UpdateSB("Canon Event Disrupted! Container not found!");
-		}
 		
 	}
 
@@ -174,6 +169,12 @@ public partial class Main : Control
 		
 		WatchedUI = (WatchedMoviesUI) WatchedMovieScene.Instantiate();
 		MainUINode.AddChild(WatchedUI);
+
+		WatchedUI.GroupSendDatatoDB += SendToDB;
+		WatchedUI.GroupSendRankToDB += SendToDB;
+		WatchedUI.SendReviewToDB += SendToDB;
+		WatchedUI.SendRankToDB += SendToDB;
+		WatchedUI.UpdateStatusBar += UpdateSB;
 		
 		WatchedUI.SetCurrentUser((int) SettingsDict["User"]);
 		WatchedUI.GenerateScreenContent(UIElementData);
@@ -212,5 +213,28 @@ public partial class Main : Control
 		}
 		UpdateSB("Across the Settings Verse...");
 	}
+
+	private void SendToDB(Array<MovieEntryData> Group)
+	{
+		DB.UpdateDataInDB(Group);
+		UpdateSB("Adding new dimension description to the list...");
+	}
+
+	private void SendToDB(int movId, string rev)
+	{
+		DB.UpdateDataInDB(movId, rev);
+		UpdateSB("This Spider has not been contacted yet.");
+	}
 	
+	private void SendToDB(int movId, int user, int rank)
+	{
+		DB.UpdateDataInDB(movId, user, rank);
+		UpdateSB("This Spider has not been contacted yet.");
+	}
+	
+	private void SendToDB(int[] movIds, int user, int[] ranks)
+	{
+		DB.UpdateDataInDB(movIds, user, ranks);
+		UpdateSB("This Spider has not been contacted yet.");
+	}
 }

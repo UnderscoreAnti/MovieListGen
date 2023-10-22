@@ -24,6 +24,14 @@ public partial class SaveSystem : Control
 	private ConfigFile ConFile = new ConfigFile();
 
 	protected System.Collections.Generic.Dictionary<DbActionsEnum, Action> DBActions = new();
+
+	public enum UsersEnum
+	{
+		Lenzo = 0,
+		Jason,
+		Shai,
+		Dev
+	}
 	
 	public enum DbActionsEnum
 	{
@@ -43,70 +51,6 @@ public partial class SaveSystem : Control
 	public override void _ExitTree()
 	{
 		CloseDBConnection();
-	}
-
-	public void GetDataFromDB(bool isDevEnabled=false)
-	{
-		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
-		string LinPath = @"./.local/share/godot/app_userdata/MovieListGenerator";
-
-		string NuPath = String.Empty;
-		string CurrentOS = OS.GetName();
-
-		if (CurrentOS == "Linux")
-		{
-			NuPath = LinPath;
-			
-			if(!File.Exists($"{NuPath}/SaveFile.db"))
-			{
-				File.Create($"{NuPath}/SaveFile.db").Dispose();
-			}
-			
-			else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}/SaveFile.db"))
-			{
-				File.Copy("SaveFile.db", $"{NuPath}/SaveFile.db");
-			}
-		}
-		
-		else if (CurrentOS == "Windows" || CurrentOS == "UWP")
-		{
-			NuPath = Environment.ExpandEnvironmentVariables(WinPath);
-
-			if (!File.Exists($"{NuPath}\\SaveFile.db"))
-			{
-				File.Create($"{NuPath}\\SaveFile.db").Dispose();
-			}
-
-			else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}\\SaveFile.db"))
-			{
-				File.Copy("SaveFile.db", $"{NuPath}\\SaveFile.db");
-			}
-		}
-		
-		if(NuPath != String.Empty && !isDevEnabled)
-		{
-			SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
-			SQLiteConn.Open();
-			CommandOutput = SQLiteConn.CreateCommand();
-		}
-		
-		else if (NuPath != String.Empty && isDevEnabled)
-		{
-			SQLiteConn = new SQLiteConnection("Data Source=SaveFile.db");
-			SQLiteConn.Open();
-			CommandOutput = SQLiteConn.CreateCommand();
-		}
-
-		else
-		{
-			EmitSignal(SignalName.UpdateStatusBar, "CANON EVENT DISRUPTED: FILE SYSTEM NOT DETECTED");
-		}
-	}
-
-	public void CloseDBConnection()
-	{
-		SQLiteConn.Close();
-		SQLiteConn.Dispose();
 	}
 
 	public Array<Variant> LoadSettings()
@@ -178,6 +122,70 @@ public partial class SaveSystem : Control
 
 		ConFile.Save("user://Settings.cfg");
 	}
+	
+	public void GetDataFromDB(bool isDevEnabled=false)
+	{
+		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
+		string LinPath = @"./.local/share/godot/app_userdata/MovieListGenerator";
+
+		string NuPath = String.Empty;
+		string CurrentOS = OS.GetName();
+
+		if (CurrentOS == "Linux")
+		{
+			NuPath = LinPath;
+			
+			if(!File.Exists($"{NuPath}/SaveFile.db"))
+			{
+				File.Create($"{NuPath}/SaveFile.db").Dispose();
+			}
+			
+			else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}/SaveFile.db"))
+			{
+				File.Copy("SaveFile.db", $"{NuPath}/SaveFile.db");
+			}
+		}
+		
+		else if (CurrentOS == "Windows" || CurrentOS == "UWP")
+		{
+			NuPath = Environment.ExpandEnvironmentVariables(WinPath);
+
+			if (!File.Exists($"{NuPath}\\SaveFile.db"))
+			{
+				File.Create($"{NuPath}\\SaveFile.db").Dispose();
+			}
+
+			else if (File.Exists("SaveFile.db") && !File.Exists($"{NuPath}\\SaveFile.db"))
+			{
+				File.Copy("SaveFile.db", $"{NuPath}\\SaveFile.db");
+			}
+		}
+		
+		if(NuPath != String.Empty && !isDevEnabled)
+		{
+			SQLiteConn = new SQLiteConnection($"Data Source={NuPath}\\SaveFile.db");
+			SQLiteConn.Open();
+			CommandOutput = SQLiteConn.CreateCommand();
+		}
+		
+		else if (NuPath != String.Empty && isDevEnabled)
+		{
+			SQLiteConn = new SQLiteConnection("Data Source=SaveFile.db");
+			SQLiteConn.Open();
+			CommandOutput = SQLiteConn.CreateCommand();
+		}
+
+		else
+		{
+			EmitSignal(SignalName.UpdateStatusBar, "CANON EVENT DISRUPTED: FILE SYSTEM NOT DETECTED");
+		}
+	}
+
+	public void CloseDBConnection()
+	{
+		SQLiteConn.Close();
+		SQLiteConn.Dispose();
+	}
 
 	public void DBActionIO(DbActionsEnum ACTION)
 	{
@@ -190,6 +198,113 @@ public partial class SaveSystem : Control
 		}
 	}
 
+	public void AddNewDataToDB(MovieEntryData WriteData)
+	{
+		CommandOutput.CommandText = @"INSERT INTO movies (movId, watched, findable, reject, review, " +
+		                            @"grank, lrank, jrank, srank, title) VALUES (@id, @wa, @fi, @rj, " +
+		                            @"@rv, @gr, @lr, @jr, @sr, @ti)";
+
+		CommandOutput.Parameters.AddWithValue("@id", WriteData.MovieID.ToString());
+		CommandOutput.Parameters.AddWithValue("@wa", WriteData.AlreadyWatched.ToString());
+		CommandOutput.Parameters.AddWithValue("@fi", WriteData.IsFinable.ToString());
+		CommandOutput.Parameters.AddWithValue("@rj", WriteData.MovieRejectReason);
+		CommandOutput.Parameters.AddWithValue("@rv", WriteData.MovieReview);
+		CommandOutput.Parameters.AddWithValue("@gr", WriteData.GeneralMovieRanking.ToString());
+		CommandOutput.Parameters.AddWithValue("@lr", WriteData.LenzoMovieRanking.ToString());
+		CommandOutput.Parameters.AddWithValue("@jr", WriteData.JasonMovieRanking.ToString());
+		CommandOutput.Parameters.AddWithValue("@sr", WriteData.ShaiMovieRanking.ToString());
+		CommandOutput.Parameters.AddWithValue("@ti", WriteData.MovieTitle);
+
+		CommandOutput.ExecuteNonQuery();
+	}
+
+	public void UpdateDataInDB(Array<MovieEntryData> DataList)
+	{
+		foreach (MovieEntryData Data in DataList)
+		{
+			CommandOutput.CommandText = @"UPDATE movies SET watched = @wa, findable = @fi, reject = @rj, " + 
+			                            @"review = @rv, grank = @gr, lrank = @lr, jrank = @jr, srank = @sr " +
+			                            @"WHERE movID = @id";
+
+			CommandOutput.Parameters.AddWithValue("@wa", Data.AlreadyWatched.ToString());
+			CommandOutput.Parameters.AddWithValue("@fi", Data.IsFinable.ToString());
+			CommandOutput.Parameters.AddWithValue("@rj", Data.MovieRejectReason);
+			CommandOutput.Parameters.AddWithValue("@rv", Data.MovieReview);
+			CommandOutput.Parameters.AddWithValue("@gr", Data.GeneralMovieRanking.ToString());
+			CommandOutput.Parameters.AddWithValue("@lr", Data.LenzoMovieRanking.ToString());
+			CommandOutput.Parameters.AddWithValue("@jr", Data.JasonMovieRanking.ToString());
+			CommandOutput.Parameters.AddWithValue("@sr", Data.ShaiMovieRanking.ToString());
+			CommandOutput.Parameters.AddWithValue("@id", Data.MovieID.ToString());
+
+			CommandOutput.ExecuteNonQuery();
+		}
+		
+	}
+
+	public void UpdateDataInDB(int movId, string rev)
+	{
+		CommandOutput.CommandText = @"UPDATE movies SET review = @rev WHERE movID = @id";
+		CommandOutput.Parameters.AddWithValue("@rev", rev);
+		CommandOutput.Parameters.AddWithValue("@id", movId);
+
+		CommandOutput.ExecuteNonQuery();
+	}
+
+	public void UpdateDataInDB(int movID, int user, int rank)
+	{
+		string CurrentRank = String.Empty;
+		
+		if (user == (int) UsersEnum.Lenzo)
+			CurrentRank = @"UPDATE movies SET lrank = @rev WHERE movID = @id";
+
+		else if (user == (int) UsersEnum.Jason)
+			CurrentRank = @"UPDATE movies SET jrank = @rev WHERE movID = @id";
+
+		else if (user == (int) UsersEnum.Shai)
+			CurrentRank = @"UPDATE movies SET srank = @rev WHERE movID = @id";
+
+		else if (user == (int) UsersEnum.Dev)
+			CurrentRank = @"UPDATE movies SET grank = @rev WHERE movID = @id";
+		
+		CommandOutput.CommandText = CurrentRank;
+
+		CommandOutput.Parameters.AddWithValue("@rev", rank);
+		CommandOutput.Parameters.AddWithValue("@id", movID);
+
+		CommandOutput.ExecuteNonQuery();
+	}
+	
+	public void UpdateDataInDB(int[] movIds, int user, int[] ranks)
+	{
+		// TODO: This function, but like correctly this time.
+		
+		string CurrentRank = String.Empty;
+		
+		if (user == (int) UsersEnum.Lenzo)
+			CurrentRank = @"UPDATE movies SET lrank = @rev WHERE movID = @id";
+
+		else if (user == (int) UsersEnum.Jason)
+			CurrentRank = @"UPDATE movies SET jrank = @rev WHERE movID = @id";
+
+		else if (user == (int) UsersEnum.Shai)
+			CurrentRank = @"UPDATE movies SET srank = @rev WHERE movID = @id";
+
+		else if (user == (int) UsersEnum.Dev)
+			CurrentRank = @"UPDATE movies SET grank = @rev WHERE movID = @id";
+		
+		CommandOutput.CommandText = CurrentRank;
+
+		int index = 0;
+		foreach (int movId in movIds)
+		{
+			int rank = ranks[index];
+			CommandOutput.Parameters.AddWithValue("@rev", rank.ToString());
+			CommandOutput.Parameters.AddWithValue("@id", movId.ToString());
+			CommandOutput.ExecuteNonQuery();
+		}
+		
+	}
+		
 	public Array<MovieEntryData> ReturnIO()
 	{
 		Array<MovieEntryData> Output = new();
@@ -214,7 +329,7 @@ public partial class SaveSystem : Control
 	
 	protected void GetWatchedMovieList()
 	{
-		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1";
+		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1 ORDER BY grank";
 		CommandReader = CommandOutput.ExecuteReader();
 
 		while (CommandReader.Read())
@@ -242,5 +357,6 @@ public partial class SaveSystem : Control
 
 		return NewDat;
 	}
+	
 
 }

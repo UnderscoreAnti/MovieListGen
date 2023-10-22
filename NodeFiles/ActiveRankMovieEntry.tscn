@@ -28,8 +28,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Movie Entry Title"
 uppercase = true
-visible_characters = 128
-visible_ratio = 7.52941
 
 [node name="ReviewMovieButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -44,7 +42,5 @@ text = "GONNA FORCE THE MAX AMOUT OF CHARS!"
 horizontal_alignment = 2
 clip_text = true
 text_overrun_behavior = 3
-visible_characters = 32
-visible_ratio = 1.77778
 
 [connection signal="pressed" from="HBoxContainer/ReviewMovieButton" to="." method="OnReviewMovieButtonPressed"]

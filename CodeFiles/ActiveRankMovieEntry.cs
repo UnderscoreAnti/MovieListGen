@@ -10,8 +10,7 @@ public partial class ActiveRankMovieEntry : MovieEntry
 	private Label MovieTitleNode;
 	private Label MovieRePreNode;
 	private Button RankMovieButton;
-
-	private Dictionary<int, int> ProfileDict = new();
+	private Timer AutoSaveTimer;
 
 	private int CurrentUser = -1;
 
@@ -22,7 +21,10 @@ public partial class ActiveRankMovieEntry : MovieEntry
 
 	public override void GenerateText()
 	{
-		ProfileDict = new() {{0, LenzoRank}, {1, JasonRank}, {2, SharRank}, {3, GeneralRanking}};
+		Dictionary<int, int> ProfileDict = new() {{0, Ranks[(int) SaveSystem.UsersEnum.Lenzo]}, 
+			{1, Ranks[(int) SaveSystem.UsersEnum.Jason]}, 
+			{2, Ranks[(int) SaveSystem.UsersEnum.Shai]}, 
+			{3, Ranks[(int) SaveSystem.UsersEnum.Dev]}};
 		
 		RankNumberNode = (Label) GetNode("HBoxContainer/RankNumber");
 		MovieTitleNode = (Label) GetNode("HBoxContainer/MovieTitle");
@@ -37,7 +39,7 @@ public partial class ActiveRankMovieEntry : MovieEntry
 
 	private string GenerateMovieRank(int Rating)
 	{
-		string Out = "Empty Str";
+		string Out = String.Empty;
 		if(Rating < 10)
 			Out = "00" + Rating;
 		

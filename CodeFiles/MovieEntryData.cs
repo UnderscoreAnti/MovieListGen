@@ -9,7 +9,7 @@ public partial class MovieEntryData : Resource
 	public int AlreadyWatched;
 	public int IsFinable;
 	public int GeneralMovieRanking;
-	public int SharMovieRanking;
+	public int ShaiMovieRanking;
 	public int LenzoMovieRanking;
 	public int JasonMovieRanking;
 
@@ -47,7 +47,7 @@ public partial class MovieEntryData : Resource
 		GeneralMovieRanking = Convert.ToInt32(gRank);
 		LenzoMovieRanking = Convert.ToInt32(lRank);
 		JasonMovieRanking = Convert.ToInt32(jRank);
-		SharMovieRanking = Convert.ToInt32(sRank);
+		ShaiMovieRanking = Convert.ToInt32(sRank);
 	
 		MovieTitle = movTitle;
 	}

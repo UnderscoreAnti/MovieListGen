@@ -13,7 +13,7 @@ public partial class UnwatchedMovieEntry : MovieEntry
 
             if (AlreadyWatched)
             {
-                EntryText.Text += $" | RANK: {GeneralRanking}";
+                EntryText.Text += $" | RANK: {Ranks[(int) SaveSystem.UsersEnum.Dev]}";
             }
         }
 
