@@ -134,9 +134,6 @@ public partial class SaveSystem : Control
 		string NuPath = String.Empty;
 		string CurrentOS = OS.GetName();
 
-		if (SQLiteConn != null && SQLiteConn.State != ConnectionState.Closed)
-			CloseDBConnection();
-
 		if (CurrentOS == "Linux")
 		{
 			NuPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

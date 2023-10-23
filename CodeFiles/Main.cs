@@ -213,7 +213,7 @@ public partial class Main : Control
 
 		Array<Variant> Sett = DB.LoadSettings();
 		
-		SettingsDialogue.SettingsConfigDialogueClosed += UpdateSettings;
+		SettingsDialogue.SettingsConfigDialogueClosed += SettingsSubmitted;
 		AddChild(SettingsDialogue);
 		
 		if (Sett.Count != 0)
@@ -223,6 +223,20 @@ public partial class Main : Control
 			SettingsDialogue.UpdateUI((bool) Sett[2], false);
 		}
 		UpdateSB("Across the Settings Verse...");
+	}
+
+	public void SettingsSubmitted(Array<Variant> NewSettings, bool WriteToFileCheck=false)
+	{
+		DB.CloseDBConnection();
+		UpdateSettings(NewSettings, WriteToFileCheck);
+		
+		if((int) SettingsDict["User"] == 3)
+			DB.GetDataFromDB(true);
+		
+		else
+			DB.GetDataFromDB();
+		
+		ChangeContainer(UIEnum.Unwatched);
 	}
 
 	private void SendToDB(Array<MovieEntryData> Group)
