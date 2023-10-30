@@ -77,4 +77,15 @@ public partial class ActiveRankMovieEntry : MovieEntry
 	{
 		EmitSignal(SignalName.OpenReviewDialogue, MovieID);
 	}
+
+	public ActiveRankMovieEntry _GetDragData(Vector2 atPosition)
+	{
+		GD.Print($"Getting position of node: {Name}");
+		ActiveRankMovieEntry Prev = (ActiveRankMovieEntry) Duplicate();
+
+		Prev.Modulate = Colors.Transparent;
+		SetDragPreview(Prev);
+
+		return this; 
+	}
 }

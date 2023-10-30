@@ -25,11 +25,6 @@ public partial class WatchedMoviesUI : VBoxContainer
     private int CurrentUser = -1;
     private int TempId = -1;
 
-    public override Variant _GetDragData(Vector2 atPosition)
-    {
-        return new Variant();
-    }
-
     public void GenerateScreenContent(Array<MovieEntryData> RequestedList)
     {
         PageList = (VBoxContainer) GetNode("ScrollContainer/MainList");
