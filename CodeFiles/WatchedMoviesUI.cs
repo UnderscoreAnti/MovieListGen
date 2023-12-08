@@ -10,6 +10,7 @@ public partial class WatchedMoviesUI : VBoxContainer
     [Signal] public delegate void GroupSendRankToDBEventHandler(int[] movIds, int user, int[] ranks);
     [Signal] public delegate void SendReviewToDBEventHandler(int movId, string rev);
     [Signal] public delegate void SendRankToDBEventHandler(int movId, int user, int rank);
+    [Signal] public delegate void UIModeToggledEventHandler(bool isReviewMode);
 
     private PackedScene MovieEntryScene = (PackedScene) ResourceLoader.Load("uid://dm05gjkbn0umm");
     private PackedScene ReviewMovieDialogueScene = (PackedScene) ResourceLoader.Load("uid://sd1qgh31nw03");
@@ -24,6 +25,9 @@ public partial class WatchedMoviesUI : VBoxContainer
 
     private int CurrentUser = -1;
     private int TempId = -1;
+    private bool isReviewMode = true;
+
+    private MovieEntryData MovieCache = new();
 
     public void GenerateScreenContent(Array<MovieEntryData> RequestedList)
     {
@@ -39,6 +43,8 @@ public partial class WatchedMoviesUI : VBoxContainer
             NewEntry.ProcessMovieData(ElementData);
             NewEntry.GenerateText();
             NewEntry.OpenReviewDialogue += OpenMovieReviewDialogue;
+            NewEntry.SendRankData += MoveRankItem;
+            UIModeToggled += NewEntry.OnModeToggled;
             
             MovieDict.Add(NewEntry.MovieID, NewEntry);
             PageList.AddChild(NewEntry);
@@ -53,11 +59,15 @@ public partial class WatchedMoviesUI : VBoxContainer
     public void OnModeChanged()
     {
         string[] Modes = {"RANK MODE", "REVIEW MODE"};
-        if (SetModeButton.Text == Modes[0])
-            SetModeButton.Text = Modes[1];
+        bool Check = SetModeButton.Text == Modes[0];
 
+        if (Check)
+            SetModeButton.Text = Modes[1];
         else
             SetModeButton.Text = Modes[0];
+        
+        // Check needs to be opposite of the button mode
+        EmitSignal(SignalName.UIModeToggled, !Check);
     }
 
     public void OnSave()
@@ -123,6 +133,17 @@ public partial class WatchedMoviesUI : VBoxContainer
         
         EditedEntries.Add(TempId, MovieDict[TempId]);
     }
+
+    public void MoveRankItem(MovieEntryData Data)
+    {
+        if(MovieCache == new MovieEntryData() || MovieCache == null)
+            MovieCache = Data;
+        
+        
+        
+    }
+    
+    // TODO: Put that function back lmaooooooooo
 
     public void UpdateEditedNode(int Id)
     {

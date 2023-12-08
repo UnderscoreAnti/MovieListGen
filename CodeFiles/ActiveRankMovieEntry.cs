@@ -5,6 +5,8 @@ using Godot.Collections;
 public partial class ActiveRankMovieEntry : MovieEntry
 {
 	[Signal] public delegate void OpenReviewDialogueEventHandler(int Id);
+	[Signal] public delegate void SendRankDataEventHandler(MovieEntryData Data);
+	[Signal] public delegate void MouseReleasedEventHandler();
 	
 	private Label RankNumberNode;
 	private Label MovieTitleNode;
@@ -72,10 +74,41 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		MovieRePreNode.Text = GenerateMovieReviewPreview(InText);
 		MovieReview = InText;
 	}
-	
+
+	public void OnModeToggled(bool isReviewMode)
+	{
+		if (isReviewMode)
+			SetReviewMode();
+
+		else
+			SetRankMode();
+	}
+
+	public void SetReviewMode()
+	{
+		RankMovieButton.Text = "Review Movie";
+		// RankMovieButton.ActionMode = BaseButton.ActionModeEnum.Release;
+	}
+
+	public void SetRankMode()
+	{
+		RankMovieButton.Text = "Rank Movie";
+		// RankMovieButton.ActionMode = BaseButton.ActionModeEnum.Press;
+	}
+
+	public void OnMouseReleased()
+	{
+		// TODO: This sorry but *I* have more important things to do.
+	}
 	public void OnReviewMovieButtonPressed()
 	{
-		EmitSignal(SignalName.OpenReviewDialogue, MovieID);
+		if(RankMovieButton.Text == "Review Movie")
+			EmitSignal(SignalName.OpenReviewDialogue, MovieID);
+
+		else
+		{
+			EmitSignal(SignalName.SendRankData, GenerateEntryData());
+		}
 	}
 
 	public ActiveRankMovieEntry _GetDragData(Vector2 atPosition)

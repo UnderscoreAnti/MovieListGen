@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57ac04d7-ae1a-4f80-82d4-eb2d3a0f0253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CodeFiles/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/SaveSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieListGenerator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MovieListGenerator.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CodeFiles/ActiveRankMovieEntry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/ActiveRankMovieEntry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CodeFiles/WatchedMoviesUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CodeFiles/WatchedMoviesUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceFiles/BadMoviesListOld.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/BadMoviesListOld.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListCompleted.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListCompleted.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceFiles/MovieListFeed.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SaveFile.db" beforeDir="false" afterPath="$PROJECT_DIR$/SaveFile.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +94,7 @@
       <workItem from="1685715338101" duration="1877000" />
       <workItem from="1697051390477" duration="1534000" />
       <workItem from="1697173601591" duration="57000" />
+      <workItem from="1701550602004" duration="76000" />
     </task>
     <servers />
   </component>
