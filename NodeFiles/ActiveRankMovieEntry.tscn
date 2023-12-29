@@ -29,18 +29,38 @@ size_flags_vertical = 1
 text = "Movie Entry Title"
 uppercase = true
 
-[node name="ReviewMovieButton" type="Button" parent="HBoxContainer"]
+[node name="Review" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="ReviewMovieButton" type="Button" parent="HBoxContainer/Review"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Review Movie"
 
-[node name="MovieRePreview" type="Label" parent="HBoxContainer"]
+[node name="MovieRePreview" type="Label" parent="HBoxContainer/Review"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "GONNA FORCE THE MAX AMOUT OF CHARS!"
+text = "PLEASE MOVE THIS SHIT OVER YO TF"
 horizontal_alignment = 2
 clip_text = true
 text_overrun_behavior = 3
 
-[connection signal="pressed" from="HBoxContainer/ReviewMovieButton" to="." method="OnReviewMovieButtonPressed"]
+[node name="Rank" type="HBoxContainer" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="RankAbove" type="Button" parent="HBoxContainer/Rank"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Rank Above"
+
+[node name="RankBelow" type="Button" parent="HBoxContainer/Rank"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Rank Below"
+
+[connection signal="pressed" from="HBoxContainer/Review/ReviewMovieButton" to="." method="OnReviewMovieButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/Rank/RankAbove" to="." method="RankAboveButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/Rank/RankBelow" to="." method="RankBelowButtonPressed"]

@@ -7,11 +7,15 @@ public partial class ActiveRankMovieEntry : MovieEntry
 	[Signal] public delegate void OpenReviewDialogueEventHandler(int Id);
 	[Signal] public delegate void SendRankDataEventHandler(MovieEntryData Data);
 	[Signal] public delegate void MouseReleasedEventHandler();
-	
+
+	private HBoxContainer ReviewMode;
+	private HBoxContainer RankMode;
 	private Label RankNumberNode;
 	private Label MovieTitleNode;
 	private Label MovieRePreNode;
 	private Button RankMovieButton;
+	private Button RankAboveButton;
+	private Button RankBelowButton;
 	private Timer AutoSaveTimer;
 
 	private int CurrentUser = -1;
@@ -30,8 +34,12 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		
 		RankNumberNode = (Label) GetNode("HBoxContainer/RankNumber");
 		MovieTitleNode = (Label) GetNode("HBoxContainer/MovieTitle");
-		MovieRePreNode = (Label) GetNode("HBoxContainer/MovieRePreview");
-		RankMovieButton = (Button) GetNode("HBoxContainer/ReviewMovieButton");
+		MovieRePreNode = (Label) GetNode("HBoxContainer/Review/MovieRePreview");
+		RankMovieButton = (Button) GetNode("HBoxContainer/Review/ReviewMovieButton");
+		RankAboveButton = (Button) GetNode("HBoxContainer/Rank/RankAbove");
+		RankBelowButton = (Button) GetNode("HBoxContainer/Rank/RankBelow");
+		RankMode = (HBoxContainer) GetNode("HBoxContainer/Rank");
+		ReviewMode = (HBoxContainer) GetNode("HBoxContainer/Review");
 		
 		RankNumberNode.Text = GenerateMovieRank(ProfileDict[CurrentUser]);
 		MovieTitleNode.Text = MovieTitle;
@@ -87,13 +95,36 @@ public partial class ActiveRankMovieEntry : MovieEntry
 	public void SetReviewMode()
 	{
 		RankMovieButton.Text = "Review Movie";
+		ModeToggle();
 		// RankMovieButton.ActionMode = BaseButton.ActionModeEnum.Release;
 	}
 
 	public void SetRankMode()
 	{
 		RankMovieButton.Text = "Rank Movie";
+		ModeToggle();
 		// RankMovieButton.ActionMode = BaseButton.ActionModeEnum.Press;
+	}
+
+	private void RankAboveButtonPressed()
+	{
+		GD.Print("The button works!");
+	}
+
+	private void RankBelowButtonPressed()
+	{
+		GD.Print("The button works!");
+	}
+
+	private void ModeToggle()
+	{
+		ReviewMode.Visible = !ReviewMode.Visible;
+		RankMode.Visible = !RankMode.Visible;
+	}
+
+	public void FinalRankEntryToggle()
+	{
+		RankBelowButton.Visible = !RankBelowButton.Visible;
 	}
 
 	public void OnMouseReleased()

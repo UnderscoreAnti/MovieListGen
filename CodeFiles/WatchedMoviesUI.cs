@@ -22,6 +22,7 @@ public partial class WatchedMoviesUI : VBoxContainer
     
     private Dictionary<int, ActiveRankMovieEntry> MovieDict = new();
     private Dictionary<int, ActiveRankMovieEntry> EditedEntries = new();
+    private Dictionary<int, ActiveRankMovieEntry> UnrankedMovies = new();
 
     private int CurrentUser = -1;
     private int TempId = -1;
@@ -34,8 +35,8 @@ public partial class WatchedMoviesUI : VBoxContainer
         PageList = (VBoxContainer) GetNode("ScrollContainer/MainList");
         SetModeButton = (Button) GetNode("HBoxContainer/Rank");
         SaveButton = (Button) GetNode("HBoxContainer/Save");
-        
-        
+
+        int LastEntryCheck = 0;
         foreach (MovieEntryData ElementData in RequestedList)
         {
             ActiveRankMovieEntry NewEntry = (ActiveRankMovieEntry) MovieEntryScene.Instantiate();
@@ -48,6 +49,10 @@ public partial class WatchedMoviesUI : VBoxContainer
             
             MovieDict.Add(NewEntry.MovieID, NewEntry);
             PageList.AddChild(NewEntry);
+            LastEntryCheck++;
+            
+            if(LastEntryCheck >= RequestedList.Count)
+                NewEntry.FinalRankEntryToggle();
         }
     }
 
@@ -58,6 +63,7 @@ public partial class WatchedMoviesUI : VBoxContainer
 
     public void OnModeChanged()
     {
+        Label MovCache = (Label) GetNode("HBoxContainer/CacheTitle");
         string[] Modes = {"RANK MODE", "REVIEW MODE"};
         bool Check = SetModeButton.Text == Modes[0];
 
@@ -65,9 +71,11 @@ public partial class WatchedMoviesUI : VBoxContainer
             SetModeButton.Text = Modes[1];
         else
             SetModeButton.Text = Modes[0];
-        
+
         // Check needs to be opposite of the button mode
         EmitSignal(SignalName.UIModeToggled, !Check);
+        
+        MovCache.Visible = Check;
     }
 
     public void OnSave()
@@ -138,12 +146,9 @@ public partial class WatchedMoviesUI : VBoxContainer
     {
         if(MovieCache == new MovieEntryData() || MovieCache == null)
             MovieCache = Data;
-        
-        
-        
     }
     
-    // TODO: Put that function back lmaooooooooo
+    // TODO:  
 
     public void UpdateEditedNode(int Id)
     {

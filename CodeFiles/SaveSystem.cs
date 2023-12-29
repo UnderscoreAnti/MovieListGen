@@ -340,7 +340,7 @@ public partial class SaveSystem : Control
 	
 	protected void GetWatchedMovieList()
 	{
-		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1 ORDER BY grank";
+		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1 AND grank != 0 ORDER BY grank";
 		CommandReader = CommandOutput.ExecuteReader();
 
 		while (CommandReader.Read())
@@ -351,6 +351,21 @@ public partial class SaveSystem : Control
 		
 		CommandReader.Close();
 	}
+
+	protected void GetWatchedUnrankedMovieList()
+	{
+		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1 AND grank = 0";
+		CommandReader = CommandOutput.ExecuteReader();
+
+		while (CommandReader.Read())
+		{
+			MovieEntryData DBEntry = CreateMovieEntryData();
+			OutputArray.Add(DBEntry);
+		}
+		
+		CommandReader.Close();
+	}
+	
 
 	private MovieEntryData CreateMovieEntryData()
 	{
