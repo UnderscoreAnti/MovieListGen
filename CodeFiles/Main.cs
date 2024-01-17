@@ -80,6 +80,7 @@ public partial class Main : Control
 		else
 			DB.GetDataFromDB();
 		
+		DB.UpdateUser((int) SettingsDict["User"]);
 		ChangeContainer(UIEnum.Unwatched);
 	}
 
@@ -181,6 +182,12 @@ public partial class Main : Control
 		WatchedUI.SetCurrentUser((int) SettingsDict["User"]);
 		WatchedUI.GenerateScreenContent(UIElementData);
 		UpdateSB("Across the Watched Verse...");
+		
+		DB.DBActionIO(SaveSystem.DbActionsEnum.GetWatchedUnrankedMovieList);
+		Array<MovieEntryData> MovieRankCacheData = DB.ReturnIO();
+
+		if (MovieRankCacheData.Count != 0)
+			WatchedUI.GetWatchedUnrankedMovies(MovieRankCacheData);
 	}
 
 	public void GetRankedUI()

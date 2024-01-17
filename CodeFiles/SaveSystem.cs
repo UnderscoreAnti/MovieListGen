@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure.Design;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
 using Environment = System.Environment;
@@ -21,10 +22,13 @@ public partial class SaveSystem : Control
 
 	private static Action LoadUnwatchedMovieList;
 	private static Action LoadWatchedMovieList;
+	private static Action LoadWatchedUnrankedMovieList;
 	
 	public Array<MovieEntryData> OutputArray = new();
-
+	
 	private ConfigFile ConFile = new ConfigFile();
+
+	private int CurrentUser = -1;
 
 	protected System.Collections.Generic.Dictionary<DbActionsEnum, Action> DBActions = new();
 
@@ -40,15 +44,18 @@ public partial class SaveSystem : Control
 	{
 		LoadUnWatchedMovieList,
 		LoadWatchedMovieList,
+		GetWatchedUnrankedMovieList,
 	}
 
 	public override void _EnterTree()
 	{
 		LoadUnwatchedMovieList = GetUnwatchedMovieList;
 		LoadWatchedMovieList = GetWatchedMovieList;
+		LoadWatchedUnrankedMovieList = GetWatchedUnrankedMovieList;
 		
 		DBActions.Add(DbActionsEnum.LoadUnWatchedMovieList, LoadUnwatchedMovieList);
 		DBActions.Add(DbActionsEnum.LoadWatchedMovieList, LoadWatchedMovieList);
+		DBActions.Add(DbActionsEnum.GetWatchedUnrankedMovieList, LoadWatchedUnrankedMovieList);
 	}
 	
 	public override void _ExitTree()
@@ -340,7 +347,28 @@ public partial class SaveSystem : Control
 	
 	protected void GetWatchedMovieList()
 	{
-		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1 AND grank != 0 ORDER BY grank";
+		string CurrentUnranked = String.Empty;
+		
+		if (CurrentUser == (int) UsersEnum.Lenzo)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND lrank != 0 ORDER BY lrank";
+
+		else if (CurrentUser == (int) UsersEnum.Jason)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND jrank != 0 ORDER BY jrank";
+
+		else if (CurrentUser == (int) UsersEnum.Shai)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND srank != 0 ORDER BY srank";
+
+		else if (CurrentUser == (int) UsersEnum.Dev)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND grank != 0 ORDER BY grank";
+
+		else
+		{
+			EmitSignal(SignalName.UpdateStatusBar, "No universe locked in, dimension hop FAILED!!!");
+			GD.Print("Unable to get movies, no profile selected.");
+			return;
+		}
+		
+		CommandOutput.CommandText = CurrentUnranked;
 		CommandReader = CommandOutput.ExecuteReader();
 
 		while (CommandReader.Read())
@@ -383,6 +411,9 @@ public partial class SaveSystem : Control
 
 		return NewDat;
 	}
-	
 
+	public void UpdateUser(int user)
+	{
+		CurrentUser = user;
+	}
 }

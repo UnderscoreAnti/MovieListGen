@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Godot.Collections;
@@ -19,10 +20,11 @@ public partial class WatchedMoviesUI : VBoxContainer
     private Timer AutoSaveTimer;
     private Button SetModeButton;
     private Button SaveButton;
+    private Label CurrentMovieCache;
     
-    private Dictionary<int, ActiveRankMovieEntry> MovieDict = new();
-    private Dictionary<int, ActiveRankMovieEntry> EditedEntries = new();
-    private Dictionary<int, ActiveRankMovieEntry> UnrankedMovies = new();
+    private Godot.Collections.Dictionary<int, ActiveRankMovieEntry> MovieDict = new();
+    private Godot.Collections.Dictionary<int, ActiveRankMovieEntry> EditedEntries = new();
+    private Godot.Collections.Dictionary<int, MovieEntryData> UnrankedMovies = new();
 
     private int CurrentUser = -1;
     private int TempId = -1;
@@ -68,7 +70,8 @@ public partial class WatchedMoviesUI : VBoxContainer
         bool Check = SetModeButton.Text == Modes[0];
 
         if (Check)
-            SetModeButton.Text = Modes[1];
+            OnRankModeEnabled();
+        
         else
             SetModeButton.Text = Modes[0];
 
@@ -147,8 +150,6 @@ public partial class WatchedMoviesUI : VBoxContainer
         if(MovieCache == new MovieEntryData() || MovieCache == null)
             MovieCache = Data;
     }
-    
-    // TODO:  
 
     public void UpdateEditedNode(int Id)
     {
@@ -163,9 +164,36 @@ public partial class WatchedMoviesUI : VBoxContainer
         }
     }
 
-    public Dictionary<int, ActiveRankMovieEntry> GetEditedNodes()
+    public Godot.Collections.Dictionary<int, ActiveRankMovieEntry> GetEditedNodes()
     {
         return EditedEntries;
     }
 
+    public void GetWatchedUnrankedMovies(Array<MovieEntryData> InData)
+    {
+        foreach (MovieEntryData MovData in InData)
+        {
+            UnrankedMovies.Add(MovData.MovieID, MovData);
+        }
+    }
+
+    private void ChangeCacheTitle(MovieEntryData InData)
+    {
+        CurrentMovieCache = (Label) GetNode("HBoxContainer/CacheTitle");
+        CurrentMovieCache.Text = InData.MovieTitle;
+    }
+
+    private void UnrankedWatchedMovieCheck()
+    {
+        // Lord forgive me for what follows but I am just so lazy 
+        int[] DictKee = UnrankedMovies.Keys.ToArray();
+        if (UnrankedMovies.Count > 0)
+            ChangeCacheTitle(UnrankedMovies[DictKee[0]]);
+    }
+
+    private void OnRankModeEnabled()
+    {
+        SetModeButton.Text = "REVIEW MODE";
+        UnrankedWatchedMovieCheck();
+    }
 }
