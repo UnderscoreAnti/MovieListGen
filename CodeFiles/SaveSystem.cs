@@ -227,10 +227,10 @@ public partial class SaveSystem : Control
 		CommandOutput.Parameters.AddWithValue("@fi", WriteData.IsFinable.ToString());
 		CommandOutput.Parameters.AddWithValue("@rj", WriteData.MovieRejectReason);
 		CommandOutput.Parameters.AddWithValue("@rv", WriteData.MovieReview);
-		CommandOutput.Parameters.AddWithValue("@gr", WriteData.GeneralMovieRanking.ToString());
-		CommandOutput.Parameters.AddWithValue("@lr", WriteData.LenzoMovieRanking.ToString());
-		CommandOutput.Parameters.AddWithValue("@jr", WriteData.JasonMovieRanking.ToString());
-		CommandOutput.Parameters.AddWithValue("@sr", WriteData.ShaiMovieRanking.ToString());
+		CommandOutput.Parameters.AddWithValue("@gr", WriteData.Ranks[(int) UsersEnum.Dev].ToString());
+		CommandOutput.Parameters.AddWithValue("@lr", WriteData.Ranks[(int) UsersEnum.Lenzo].ToString());
+		CommandOutput.Parameters.AddWithValue("@jr", WriteData.Ranks[(int) UsersEnum.Jason].ToString());
+		CommandOutput.Parameters.AddWithValue("@sr", WriteData.Ranks[(int) UsersEnum.Shai].ToString());
 		CommandOutput.Parameters.AddWithValue("@ti", WriteData.MovieTitle);
 
 		CommandOutput.ExecuteNonQuery();
@@ -247,11 +247,11 @@ public partial class SaveSystem : Control
 			CommandOutput.Parameters.AddWithValue("@wa", Data.AlreadyWatched.ToString());
 			CommandOutput.Parameters.AddWithValue("@fi", Data.IsFinable.ToString());
 			CommandOutput.Parameters.AddWithValue("@rj", Data.MovieRejectReason);
-			CommandOutput.Parameters.AddWithValue("@rv", Data.MovieReview);
-			CommandOutput.Parameters.AddWithValue("@gr", Data.GeneralMovieRanking.ToString());
-			CommandOutput.Parameters.AddWithValue("@lr", Data.LenzoMovieRanking.ToString());
-			CommandOutput.Parameters.AddWithValue("@jr", Data.JasonMovieRanking.ToString());
-			CommandOutput.Parameters.AddWithValue("@sr", Data.ShaiMovieRanking.ToString());
+			CommandOutput.Parameters.AddWithValue("@rv", Data.MovieReview);		
+			CommandOutput.Parameters.AddWithValue("@gr", Data.Ranks[(int) UsersEnum.Dev].ToString());
+			CommandOutput.Parameters.AddWithValue("@lr", Data.Ranks[(int) UsersEnum.Lenzo].ToString());
+			CommandOutput.Parameters.AddWithValue("@jr", Data.Ranks[(int) UsersEnum.Jason].ToString());
+			CommandOutput.Parameters.AddWithValue("@sr", Data.Ranks[(int) UsersEnum.Shai].ToString());
 			CommandOutput.Parameters.AddWithValue("@id", Data.MovieID.ToString());
 
 			CommandOutput.ExecuteNonQuery();
@@ -350,16 +350,16 @@ public partial class SaveSystem : Control
 		string CurrentUnranked = String.Empty;
 		
 		if (CurrentUser == (int) UsersEnum.Lenzo)
-			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND lrank != 0 ORDER BY lrank";
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND lrank != 0 ORDER BY lrank";
 
 		else if (CurrentUser == (int) UsersEnum.Jason)
-			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND jrank != 0 ORDER BY jrank";
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND jrank != 0 ORDER BY jrank";
 
 		else if (CurrentUser == (int) UsersEnum.Shai)
-			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND srank != 0 ORDER BY srank";
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND srank != 0 ORDER BY srank";
 
 		else if (CurrentUser == (int) UsersEnum.Dev)
-			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND grank != 0 ORDER BY grank";
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND grank != 0 ORDER BY grank";
 
 		else
 		{
@@ -382,7 +382,28 @@ public partial class SaveSystem : Control
 
 	protected void GetWatchedUnrankedMovieList()
 	{
-		CommandOutput.CommandText = @"SELECT * FROM movies WHERE watched = 1 AND grank = 0";
+		string CurrentUnranked = String.Empty;
+		
+		if (CurrentUser == (int) UsersEnum.Lenzo)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND lrank = 0";
+
+		else if (CurrentUser == (int) UsersEnum.Jason)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND jrank = 0";
+
+		else if (CurrentUser == (int) UsersEnum.Shai)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND srank = 0";
+
+		else if (CurrentUser == (int) UsersEnum.Dev)
+			CurrentUnranked = @"SELECT * FROM movies WHERE watched = 1 AND findable = 1 AND grank = 0";
+
+		else
+		{
+			EmitSignal(SignalName.UpdateStatusBar, "No universe locked in, dimension hop FAILED!!!");
+			GD.Print("Unable to get movies, no profile selected.");
+			return;
+		}
+		
+		CommandOutput.CommandText = CurrentUnranked;
 		CommandReader = CommandOutput.ExecuteReader();
 
 		while (CommandReader.Read())

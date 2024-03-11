@@ -12,6 +12,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_hrww1")
 
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(0.411765, 0, 1, 1)
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
@@ -61,6 +65,13 @@ layout_mode = 2
 size_flags_horizontal = 10
 text = "Rank Below"
 
+[node name="EditRank" type="Button" parent="HBoxContainer/Rank"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Edit Rank"
+
 [connection signal="pressed" from="HBoxContainer/Review/ReviewMovieButton" to="." method="OnReviewMovieButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/Rank/RankAbove" to="." method="RankAboveButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/Rank/RankBelow" to="." method="RankBelowButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/Rank/EditRank" to="." method="EditRankAboveButtonPressed"]

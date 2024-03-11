@@ -36,10 +36,10 @@ public partial class MovieEntry : MarginContainer
 		NewData.IsFinable = NewData.BoolToInt(IsFindable);
 		NewData.MovieReview = MovieReview;
 		
-		NewData.LenzoMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Lenzo];
-		NewData.JasonMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Jason];
-		NewData.ShaiMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Shai];
-		NewData.GeneralMovieRanking = Ranks[(int) SaveSystem.UsersEnum.Lenzo];
+		NewData.Ranks[(int) SaveSystem.UsersEnum.Dev] = Ranks[(int) SaveSystem.UsersEnum.Dev];
+		NewData.Ranks[(int) SaveSystem.UsersEnum.Jason] = Ranks[(int) SaveSystem.UsersEnum.Jason];
+		NewData.Ranks[(int) SaveSystem.UsersEnum.Shai] = Ranks[(int) SaveSystem.UsersEnum.Shai];
+		NewData.Ranks[(int) SaveSystem.UsersEnum.Lenzo] = Ranks[(int) SaveSystem.UsersEnum.Lenzo];
 
 		NewData.MovieID = MovieID;
 		
@@ -54,9 +54,9 @@ public partial class MovieEntry : MarginContainer
 		IsFindable = Data.IntToBool(Data.IsFinable);
 		MovieReview = Data.MovieReview;
 
-		Ranks[(int) SaveSystem.UsersEnum.Shai] = Data.ShaiMovieRanking;
-		Ranks[(int) SaveSystem.UsersEnum.Lenzo] = Data.LenzoMovieRanking;
-		Ranks[(int) SaveSystem.UsersEnum.Jason] = Data.JasonMovieRanking;
+		Ranks[(int) SaveSystem.UsersEnum.Shai] = Data.Ranks[(int) SaveSystem.UsersEnum.Shai];
+		Ranks[(int) SaveSystem.UsersEnum.Lenzo] = Data.Ranks[(int) SaveSystem.UsersEnum.Lenzo];
+		Ranks[(int) SaveSystem.UsersEnum.Jason] = Data.Ranks[(int) SaveSystem.UsersEnum.Jason];
 
 		Ranks[(int) SaveSystem.UsersEnum.Dev] = GenerateGeneralRank(Ranks[(int) SaveSystem.UsersEnum.Jason], 
 			Ranks[(int) SaveSystem.UsersEnum.Lenzo], Ranks[(int) SaveSystem.UsersEnum.Shai]);

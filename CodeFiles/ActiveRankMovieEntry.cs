@@ -6,8 +6,11 @@ public partial class ActiveRankMovieEntry : MovieEntry
 {
 	[Signal] public delegate void OpenReviewDialogueEventHandler(int Id);
 	[Signal] public delegate void SendRankDataEventHandler(MovieEntryData Data);
+	[Signal] public delegate void RankAbovePressedEventHandler(MovieEntryData Data);
+	[Signal] public delegate void RankBelowPressedEventHandler(MovieEntryData Data);
+	[Signal] public delegate void EditRankPressedEventHandler(MovieEntryData Data);
 	[Signal] public delegate void MouseReleasedEventHandler();
-
+	
 	private HBoxContainer ReviewMode;
 	private HBoxContainer RankMode;
 	private Label RankNumberNode;
@@ -16,7 +19,12 @@ public partial class ActiveRankMovieEntry : MovieEntry
 	private Button RankMovieButton;
 	private Button RankAboveButton;
 	private Button RankBelowButton;
+	private Button EditRankButton;
+	private Panel BackgroundColor;
 	private Timer AutoSaveTimer;
+
+	private Color ColorOne;
+	private Color ColorTwo;
 
 	private int CurrentUser = -1;
 
@@ -38,13 +46,14 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		RankMovieButton = (Button) GetNode("HBoxContainer/Review/ReviewMovieButton");
 		RankAboveButton = (Button) GetNode("HBoxContainer/Rank/RankAbove");
 		RankBelowButton = (Button) GetNode("HBoxContainer/Rank/RankBelow");
+		EditRankButton = (Button) GetNode("HBoxContainer/Rank/EditRank");
 		RankMode = (HBoxContainer) GetNode("HBoxContainer/Rank");
+		ReviewMode = (HBoxContainer) GetNode("HBoxContainer/Review");
 		ReviewMode = (HBoxContainer) GetNode("HBoxContainer/Review");
 		
 		RankNumberNode.Text = GenerateMovieRank(ProfileDict[CurrentUser]);
 		MovieTitleNode.Text = MovieTitle;
 		MovieRePreNode.Text = GenerateMovieReviewPreview(MovieReview);
-
 	}
 
 	private string GenerateMovieRank(int Rating)
@@ -77,6 +86,19 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		return Out;
 	}
 
+	public void UpdateColor(bool isColorOne)
+	{
+		BackgroundColor = (Panel) GetNode("Panel");
+		ColorOne = Color.FromString("ff30e1", Colors.Cyan);
+		ColorTwo = Color.FromString("6900ff", Colors.Coral);
+		
+		if (isColorOne)
+			BackgroundColor.Modulate = ColorOne;
+		
+		else
+			BackgroundColor.Modulate = ColorTwo;
+	}
+
 	public void UpdateReview(string InText)
 	{
 		MovieRePreNode.Text = GenerateMovieReviewPreview(InText);
@@ -106,14 +128,19 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		// RankMovieButton.ActionMode = BaseButton.ActionModeEnum.Press;
 	}
 
+	private void EditRankAboveButtonPressed()
+	{
+		EmitSignal(SignalName.EditRankPressed, GenerateEntryData());
+	}
+	
 	private void RankAboveButtonPressed()
 	{
-		GD.Print("The button works!");
+		EmitSignal(SignalName.RankAbovePressed, GenerateEntryData());
 	}
 
 	private void RankBelowButtonPressed()
 	{
-		GD.Print("The button works!");
+		EmitSignal(SignalName.RankBelowPressed, GenerateEntryData());
 	}
 
 	private void ModeToggle()
@@ -127,6 +154,22 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		RankBelowButton.Visible = !RankBelowButton.Visible;
 	}
 
+	public void RankCacheCleared()
+	{
+		string tempTit = MovieTitle;
+		RankAboveButton.Visible = false;
+		if (RankBelowButton.Visible)
+			RankBelowButton.Visible = false;
+		EditRankButton.Visible = true;
+	}
+
+	public void EditRankSwitchToRank()
+	{
+		RankAboveButton.Visible = true;
+		EditRankButton.Visible = false;
+	}
+	
+
 	public void OnMouseReleased()
 	{
 		// TODO: This sorry but *I* have more important things to do.
@@ -137,9 +180,7 @@ public partial class ActiveRankMovieEntry : MovieEntry
 			EmitSignal(SignalName.OpenReviewDialogue, MovieID);
 
 		else
-		{
 			EmitSignal(SignalName.SendRankData, GenerateEntryData());
-		}
 	}
 
 	public ActiveRankMovieEntry _GetDragData(Vector2 atPosition)
