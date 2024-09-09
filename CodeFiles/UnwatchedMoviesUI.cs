@@ -15,7 +15,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	private Button NewMovieButton;
 	private Button NewAndReplaceButton;
 	private Button RejectButton;
-	private VBoxContainer PageList;
+	private VBoxContainer PageList; 
 	private Label CurrentMovieLabel;
 	
 	private UnwatchedMovieEntry CurrentMovie;

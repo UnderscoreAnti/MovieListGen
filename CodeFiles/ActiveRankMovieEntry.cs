@@ -85,9 +85,10 @@ public partial class ActiveRankMovieEntry : MovieEntry
 		Out = Rev + "...";
 		return Out;
 	}
-
-	public void UpdateColor(bool isColorOne)
+	
+	public void UpdateColor()
 	{
+		bool isColorOne = Ranks[CurrentUser] % 2 == 0;
 		BackgroundColor = (Panel) GetNode("Panel");
 		ColorOne = Color.FromString("ff30e1", Colors.Cyan);
 		ColorTwo = Color.FromString("6900ff", Colors.Coral);
