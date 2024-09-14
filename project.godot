@@ -10,17 +10,21 @@ config_version=5
 
 [application]
 
-config/name="MovieListGenerator"
+config/name="MovieVerse"
+config/version="0.1.x"
 run/main_scene="res://SceneFiles/Main.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 run/low_processor_mode=true
-config/icon="res://icon.svg"
+config/icon="res://MovieVerseLogo.svg"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/extend_to_title=true
+window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
+window/vsync/vsync_mode=0
 
 [dotnet]
 
@@ -31,3 +35,12 @@ project/assembly_name="MovieListGenerator"
 movie_writer/movie_file="C:/Users/shark/Documents/GameDev/MovieListGen/DebugVId/Test.png"
 movie_writer/fps=10
 naming/scene_name_casing=1
+
+[rendering]
+
+driver/depth_prepass/enable=false
+environment/glow/upscale_mode=0
+environment/screen_space_reflection/roughness_quality=0
+environment/subsurface_scattering/subsurface_scattering_quality=0
+environment/volumetric_fog/use_filter=0
+environment/defaults/default_clear_color=Color(0.305728, 0.0613655, 0.157766, 1)

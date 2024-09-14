@@ -135,8 +135,8 @@ public partial class SaveSystem : Control
 	
 	public void GetDataFromDB(bool isDevEnabled=false)
 	{
-		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieListGenerator";
-		string LinPath = @"godot/app_userdata/MovieListGenerator";
+		string WinPath = @"%APPDATA%\Godot\app_userdata\MovieVerse";
+		string LinPath = @"godot/app_userdata/MovieVerse";
 
 		string NuPath = String.Empty;
 		string CurrentOS = OS.GetName();

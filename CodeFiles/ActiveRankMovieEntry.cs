@@ -90,8 +90,8 @@ public partial class ActiveRankMovieEntry : MovieEntry
 	{
 		bool isColorOne = Ranks[CurrentUser] % 2 == 0;
 		BackgroundColor = (Panel) GetNode("Panel");
-		ColorOne = Color.FromString("ff30e1", Colors.Cyan);
-		ColorTwo = Color.FromString("6900ff", Colors.Coral);
+		ColorOne = Color.FromString("cc23a1", Colors.Cyan);
+		ColorTwo = Color.FromString("441e74", Colors.Coral);
 		
 		if (isColorOne)
 			BackgroundColor.Modulate = ColorOne;

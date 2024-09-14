@@ -243,9 +243,8 @@ public partial class WatchedMoviesUI : VBoxContainer
         UnrankedMovies[CurrentMovieIDCache].Ranks[CurrentUser] = Data.Ranks[CurrentUser];
 
         
-        int RankThreshold = Data.Ranks[CurrentUser];
+        int RankThreshold = Data.Ranks[CurrentUser] - 1;
         int NewRank = Data.Ranks[CurrentUser];
-        GD.Print($"Index of {}"); 
 
         Array<Node> PreppedPageList = RawPageList.Slice(RankThreshold);
 
@@ -380,6 +379,7 @@ public partial class WatchedMoviesUI : VBoxContainer
 
 
     private void ClearHiddenEntry()
+    
     {
         HiddenEntry = new ActiveRankMovieEntry();
     }
