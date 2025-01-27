@@ -33,7 +33,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="SaveFile [3]" uuid="a5b451b4-001e-410e-ba04-8009dc3413e9">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>571161a3-9952-418a-8c2d-046608dc5add</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$USER_HOME$/.local/share/godot/app_userdata/MovieListGenerator/SaveFile.db</jdbc-url>
@@ -46,6 +46,13 @@
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.40.1/sqlite-jdbc-3.40.1.jar</url>
         </library>
       </libraries>
+    </data-source>
+    <data-source source="LOCAL" name="SaveFile.db" uuid="48c3d73f-f0b0-4651-ae87-dcba9d959b55">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/SaveFile.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
 </project>

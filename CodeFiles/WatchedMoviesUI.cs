@@ -176,19 +176,6 @@ public partial class WatchedMoviesUI : VBoxContainer
             MovieCache = Data;
     }
 
-    public void UpdateEditedNode(int Id)
-    {
-        if (EditedEntries.ContainsKey(Id))
-        {
-            EditedEntries[Id] = MovieDict[Id];
-        }
-
-        else
-        {
-            EditedEntries.Add(Id, MovieDict[Id]);
-        }
-    }
-
     public Godot.Collections.Dictionary<int, ActiveRankMovieEntry> GetEditedNodes()
     {
         return EditedEntries;
@@ -236,12 +223,77 @@ public partial class WatchedMoviesUI : VBoxContainer
 
     private void OnRankAbovePressed(MovieEntryData Data)
     {
+        if (HiddenEntry.MovieID == 0)
+            RankAboveNewRankMode(Data); 
+
+        else
+            RankAboveEditRankMode(Data);
+    }
+    
+    public void RankAboveEditRankMode(MovieEntryData Data)
+    {
         EmitSignal(SignalName.UpdateStatusBar, "UPDATING TEMPORARY DIMENSIONAL RANKS...");
         
         Array<Node> RawPageList = PageList.GetChildren();
+        int RankThreshold = Data.Ranks[CurrentUser] - 1;
         
-        UnrankedMovies[CurrentMovieIDCache].Ranks[CurrentUser] = Data.Ranks[CurrentUser];
+        Array<Node> PreppedPageList = RawPageList.Slice(RankThreshold);
+        Array<ActiveRankMovieEntry> CookedPageList = new();
+        
+        foreach (Node PreppedNode in PreppedPageList)
+        {
+            ActiveRankMovieEntry CookedEntry = (ActiveRankMovieEntry) PreppedNode;
+            
+            if(CookedEntry.MovieID != HiddenEntry.MovieID)
+                CookedPageList.Add(CookedEntry);
+        }
 
+        ActiveRankMovieEntry CookedCache = new();
+        UnrankedMovies[CurrentMovieIDCache].Ranks[CurrentUser] = Data.Ranks[CurrentUser];
+        
+        int RankInterator = 0;
+        CookedCache = PrepNode(UnrankedMovies[CurrentMovieIDCache]);
+        PageList.AddChild(CookedCache);
+        PageList.MoveChild(CookedCache, RankThreshold);
+        CookedCache = HiddenEntry;
+        CookedCache.Ranks[CurrentUser] = Data.Ranks[CurrentUser];
+        CookedCache.GenerateText();
+        CookedCache.UpdateColor();
+        CookedCache.Visible = true;
+        
+        int LastEntryCheck = 0;
+        foreach (Node SlicedEntry in PreppedPageList)
+        {
+            ActiveRankMovieEntry QuickSwitch = (ActiveRankMovieEntry) SlicedEntry;
+            if (QuickSwitch == HiddenEntry)
+            {
+                GD.Print("This is a flag!");
+                continue;
+            }
+            
+            QuickSwitch.Ranks[CurrentUser] += 1;
+            QuickSwitch.UpdateColor();
+            
+            QuickSwitch.GenerateText();
+            
+            if(LastEntryCheck >= PreppedPageList.Count)
+                QuickSwitch.FinalRankEntryToggle();
+        } 
+        
+        
+        EmitSignal(SignalName.UpdateStatusBar, "DIMENSIONAL RANKS UPDATED!");
+        UnrankedMovies.Remove(CurrentMovieIDCache);
+        UnrankedWatchedMovieCheck();
+        
+        GD.Print("Poopoo");
+    }
+    
+    public void RankAboveNewRankMode(MovieEntryData Data)
+    {
+        EmitSignal(SignalName.UpdateStatusBar, "UPDATING TEMPORARY DIMENSIONAL RANKS...");
+        
+        Array<Node> RawPageList = PageList.GetChildren();
+        UnrankedMovies[CurrentMovieIDCache].Ranks[CurrentUser] = Data.Ranks[CurrentUser];
         
         int RankThreshold = Data.Ranks[CurrentUser] - 1;
         int NewRank = Data.Ranks[CurrentUser];
@@ -250,47 +302,16 @@ public partial class WatchedMoviesUI : VBoxContainer
 
         ActiveRankMovieEntry CookedCache = new();
         
-        bool isNotActiveHiddenEntry = HiddenEntry.Visible;
         int RankInterator = 0;
-        if (isNotActiveHiddenEntry)
-        {
-            CookedCache = PrepNode(UnrankedMovies[CurrentMovieIDCache]);
-            PageList.AddChild(CookedCache); 
-        }
+        CookedCache = PrepNode(UnrankedMovies[CurrentMovieIDCache]);
+        PageList.AddChild(CookedCache);
         
-
-        else
-        {
-            CookedCache = HiddenEntry;
-            CookedCache.Ranks[CurrentUser] = NewRank;
-            CookedCache.GenerateText();
-            CookedCache.Visible = true;
-            
-            GD.Print("Poopoo");
-        }
-        
-        
-        
-        if(EditedEntries.ContainsKey(CookedCache.MovieID))
-            EditedEntries[CookedCache.MovieID] = CookedCache;
-
-        else
-            EditedEntries.Add(CookedCache.MovieID, CookedCache);
-        
-        
-
         int LastEntryCheck = 0;
         foreach (Node SlicedEntry in PreppedPageList)
         {
             ActiveRankMovieEntry QuickSwitch = (ActiveRankMovieEntry) SlicedEntry;
             QuickSwitch.Ranks[CurrentUser] += 1;
             QuickSwitch.UpdateColor();
-            
-            if(EditedEntries.ContainsKey(QuickSwitch.MovieID))
-                EditedEntries[QuickSwitch.MovieID] = QuickSwitch;
-
-            else
-                EditedEntries.Add(QuickSwitch.MovieID, QuickSwitch);
             
             QuickSwitch.GenerateText();
             
@@ -302,11 +323,7 @@ public partial class WatchedMoviesUI : VBoxContainer
         PageList.MoveChild(CookedCache, RankThreshold);
         CookedCache.UpdateColor();
         
-        
-        
         EmitSignal(SignalName.UpdateStatusBar, "DIMENSIONAL RANKS UPDATED!");
-        
-        ClearHiddenEntry();
         UnrankedMovies.Remove(CurrentMovieIDCache);
         UnrankedWatchedMovieCheck();
     }
@@ -331,12 +348,6 @@ public partial class WatchedMoviesUI : VBoxContainer
         {
             ActiveRankMovieEntry QuickSwitch = (ActiveRankMovieEntry) SlicedEntry;
             QuickSwitch.Ranks[CurrentUser] -= 1;
-            
-            if(EditedEntries.ContainsKey(QuickSwitch.MovieID))
-                EditedEntries[QuickSwitch.MovieID] = QuickSwitch;
-
-            else
-                EditedEntries.Add(QuickSwitch.MovieID, QuickSwitch);
             
             QuickSwitch.UpdateColor();
             QuickSwitch.GenerateText();
@@ -377,9 +388,16 @@ public partial class WatchedMoviesUI : VBoxContainer
         ClearHiddenEntry();
     }
 
+    private void UpdateEditedEntries(ActiveRankMovieEntry Entry)
+    {
+            if(EditedEntries.ContainsKey(Entry.MovieID))
+                EditedEntries[Entry.MovieID] = Entry;
 
-    private void ClearHiddenEntry()
+            else
+                EditedEntries.Add(Entry.MovieID, Entry);
+    }
     
+    private void ClearHiddenEntry()
     {
         HiddenEntry = new ActiveRankMovieEntry();
     }
