@@ -159,6 +159,7 @@ public partial class Main : Control
 		MainUINode.AddChild(UnwatchedUI);
 		UnwatchedUI.UpdateStatusBar += UpdateSB;
 		UnwatchedUI.OpenRankUI += OnTabChanged;
+		UnwatchedUI.SendToDB += SendToDB;
 		
 		UnwatchedUI.GenerateScreenContent(UIElementData);
 		UpdateSB("Across the Unwatched Verse...");
@@ -256,6 +257,11 @@ public partial class Main : Control
 	{
 		DB.UpdateDataInDB(movId, rev);
 		UpdateSB("This Spider has not been contacted yet.");
+	}
+
+	private void SendToDB(int movId)
+	{
+		DB.UpdateDataInDB(movId);
 	}
 	
 	private void SendToDB(int movId, int user, int rank)

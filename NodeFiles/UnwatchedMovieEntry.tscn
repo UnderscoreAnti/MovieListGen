@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dsq3udxw781px"]
 
-[ext_resource type="Script" path="res://CodeFiles/UnwatchedMovieEntry.cs" id="1_nphjo"]
+[ext_resource type="Script" uid="uid://b4syvk5gdjnw8" path="res://CodeFiles/UnwatchedMovieEntry.cs" id="1_nphjo"]
 
 [node name="UnwatchedMovieEntry" type="MarginContainer"]
 anchors_preset = 15

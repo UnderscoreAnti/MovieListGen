@@ -6,6 +6,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 {
 	[Signal] public delegate void UpdateStatusBarEventHandler(string Message);
 	[Signal] public delegate void OpenRankUIEventHandler(int Menu);
+	[Signal] public delegate void SendToDBEventHandler(int movId);
 	
 	private PackedScene MovieEntryScene = (PackedScene) ResourceLoader.Load("uid://dsq3udxw781px");
 	private PackedScene RejectMovieDialogueScene = (PackedScene) ResourceLoader.Load("uid://blp75sr6qskvp");
@@ -15,6 +16,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	private Button NewMovieButton;
 	private Button NewAndReplaceButton;
 	private Button RejectButton;
+	private Button MovieWatchedButton;
 	private VBoxContainer PageList; 
 	private Label CurrentMovieLabel;
 	
@@ -25,6 +27,7 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		NewMovieButton = (Button) GetNode("PickMovieUI/PickNewMovie");
 		NewAndReplaceButton = (Button) GetNode("PickMovieUI/PickNewMovieReplace");
 		RejectButton = (Button) GetNode("PickMovieUI/RejectMovie");
+		MovieWatchedButton = (Button) GetNode("PickMovieUI/WatchedMovie");
 		
 		CurrentMovieLabel = (Label) GetNode("PickMovieUI/CurrentMovieTitle");
 		
@@ -46,7 +49,8 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 	{
 		if (NewMovieButton.Text == "RANK MOVIE")
 		{
-			EmitSignal(SignalName.OpenRankUI, (int) Main.UIEnum.Rank);
+			SendWatchedMovieToDB();
+			EmitSignal(SignalName.OpenRankUI, (int) Main.UIEnum.Watched);
 			return;
 		}
 		
@@ -61,7 +65,8 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 		CurrentMovieLabel.Text = $"Now watching: {Entry.MovieTitle}";
 		NewAndReplaceButton.Disabled = false;
 		RejectButton.Disabled = false;
-		
+
+		MovieWatchedButton.Visible = !MovieWatchedButton.Visible;
 		NewMovieButton.Text = "RANK MOVIE";
 		
 	}
@@ -103,6 +108,12 @@ public partial class UnwatchedMoviesUI : VBoxContainer
 
 			CurrentMovieLabel.Text = "No Movie Picked";
 		}
+	}
+
+	public void SendWatchedMovieToDB()
+	{
+		EmitSignal(SignalName.UpdateStatusBar, "DIMENSION ANALYZED! SENDING TO DB...");
+		EmitSignal(SignalName.SendToDB, CurrentMovie.MovieID);
 	}
 	
 	public void ClearScreen()

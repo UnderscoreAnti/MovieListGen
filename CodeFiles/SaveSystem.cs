@@ -259,11 +259,11 @@ public partial class SaveSystem : Control
 		
 	}
 
-	public void UpdateDataInDB(int movId, string rev)
+	public void UpdateDataInDB(int movID, string rev)
 	{
 		CommandOutput.CommandText = @"UPDATE movies SET review = @rev WHERE movID = @id";
 		CommandOutput.Parameters.AddWithValue("@rev", rev);
-		CommandOutput.Parameters.AddWithValue("@id", movId);
+		CommandOutput.Parameters.AddWithValue("@id", movID);
 
 		CommandOutput.ExecuteNonQuery();
 	}
@@ -291,8 +291,21 @@ public partial class SaveSystem : Control
 
 		CommandOutput.ExecuteNonQuery();
 	}
+
+	public void UpdateDataInDB(int movID)
+	{
+		string WatchedMovie = String.Empty;
+		
+		WatchedMovie = @"UPDATE movies SET watched = 1 WHERE movID = @id; " +
+						@"UPDATE movies SET findable = 1 WHERE movID = @id;";
+		
+		CommandOutput.CommandText = WatchedMovie;
+		CommandOutput.Parameters.AddWithValue("@id", movID);
+		
+		CommandOutput.ExecuteNonQuery();
+	}
 	
-	public void UpdateDataInDB(int[] movIds, int user, int[] ranks)
+	public void UpdateDataInDB(int[] movIDs, int user, int[] ranks)
 	{
 		// TODO: This function, but like correctly this time.
 		
@@ -313,11 +326,11 @@ public partial class SaveSystem : Control
 		CommandOutput.CommandText = CurrentRank;
 
 		int index = 0;
-		foreach (int movId in movIds)
+		foreach (int movID in movIDs)
 		{
 			int rank = ranks[index];
 			CommandOutput.Parameters.AddWithValue("@rev", rank.ToString());
-			CommandOutput.Parameters.AddWithValue("@id", movId.ToString());
+			CommandOutput.Parameters.AddWithValue("@id", movID.ToString());
 			CommandOutput.ExecuteNonQuery();
 		}
 		

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d1v068hmlr4k4"]
 
-[ext_resource type="Script" path="res://CodeFiles/Main.cs" id="1_pplhp"]
-[ext_resource type="Script" path="res://CodeFiles/SaveSystem.cs" id="4_r7k8u"]
+[ext_resource type="Script" uid="uid://6dq5cymmx2qt" path="res://CodeFiles/Main.cs" id="1_pplhp"]
+[ext_resource type="Script" uid="uid://disnmormm6saq" path="res://CodeFiles/SaveSystem.cs" id="4_r7k8u"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -26,6 +26,7 @@ layout_mode = 2
 [node name="TabBar" type="TabBar" parent="MainUI/TabContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+current_tab = 0
 tab_count = 3
 tab_0/title = "Pick Unwatched Movies"
 tab_1/title = "Review Watched Movies "

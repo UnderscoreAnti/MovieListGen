@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d350d0od5ay13"]
 
-[ext_resource type="Script" path="res://CodeFiles/WatchedMoviesUI.cs" id="1_r5vt3"]
+[ext_resource type="Script" uid="uid://bau0xle7c7mkv" path="res://CodeFiles/WatchedMoviesUI.cs" id="1_r5vt3"]
 
 [node name="WatchedMovieUI" type="VBoxContainer"]
 anchors_preset = 15

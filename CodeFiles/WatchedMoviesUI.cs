@@ -235,7 +235,7 @@ public partial class WatchedMoviesUI : VBoxContainer
         EmitSignal(SignalName.UpdateStatusBar, "UPDATING TEMPORARY DIMENSIONAL RANKS...");
         
         Array<Node> RawPageList = PageList.GetChildren();
-        int RankThreshold = Data.Ranks[CurrentUser] - 1;
+        int RankThreshold = Data.Ranks[CurrentUser];
         
         Array<Node> PreppedPageList = RawPageList.Slice(RankThreshold);
         Array<ActiveRankMovieEntry> CookedPageList = new();
@@ -249,13 +249,11 @@ public partial class WatchedMoviesUI : VBoxContainer
         }
 
         ActiveRankMovieEntry CookedCache = new();
-        UnrankedMovies[CurrentMovieIDCache].Ranks[CurrentUser] = Data.Ranks[CurrentUser];
+        UnrankedMovies[CurrentMovieIDCache].Ranks[CurrentUser] = Data.Ranks[CurrentUser]; 
         
         int RankInterator = 0;
-        CookedCache = PrepNode(UnrankedMovies[CurrentMovieIDCache]);
-        PageList.AddChild(CookedCache);
-        PageList.MoveChild(CookedCache, RankThreshold);
         CookedCache = HiddenEntry;
+        PageList.MoveChild(CookedCache, RankThreshold - 1);
         CookedCache.Ranks[CurrentUser] = Data.Ranks[CurrentUser];
         CookedCache.GenerateText();
         CookedCache.UpdateColor();

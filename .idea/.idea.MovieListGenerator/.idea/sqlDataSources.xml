@@ -6,9 +6,11 @@
         <State>
           <option name="id" value="207c14af-37c8-45f7-b954-009c567100c3" />
           <option name="name" value="SaveFile" />
+          <option name="dbmsName" value="UNKNOWN" />
           <option name="urls">
             <array>
               <option value="file://$PROJECT_DIR$/SaveFile.db" />
+              <option value="file://$USER_HOME$/AppData/Roaming/Godot/app_userdata/MovieVerse/SaveFile.db" />
             </array>
           </option>
         </State>

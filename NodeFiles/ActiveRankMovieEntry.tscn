@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dm05gjkbn0umm"]
 
-[ext_resource type="Script" path="res://CodeFiles/ActiveRankMovieEntry.cs" id="1_hrww1"]
+[ext_resource type="Script" uid="uid://d31m85crrefdd" path="res://CodeFiles/ActiveRankMovieEntry.cs" id="1_hrww1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q0amo"]
 

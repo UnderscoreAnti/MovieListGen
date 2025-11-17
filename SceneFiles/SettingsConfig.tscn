@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cuib88i5i8xew"]
 
-[ext_resource type="Script" path="res://CodeFiles/SettingsConfig.cs" id="1_7gto4"]
+[ext_resource type="Script" uid="uid://ddw8kya2y3mka" path="res://CodeFiles/SettingsConfig.cs" id="1_7gto4"]
 
 [node name="SettingsConfig" type="Window"]
 title = "Setings Config"
@@ -29,6 +29,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 item_count = 3
 popup/item_0/text = "Lenzo"
+popup/item_0/id = 0
 popup/item_1/text = "Jason"
 popup/item_1/id = 1
 popup/item_2/text = "Shai"

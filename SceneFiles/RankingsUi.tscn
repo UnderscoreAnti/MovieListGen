@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bj7wonw0qpeqr"]
 
-[ext_resource type="Script" path="res://CodeFiles/ViewRanksUI.cs" id="1_n8htp"]
+[ext_resource type="Script" uid="uid://dvk1xiq1s8tsa" path="res://CodeFiles/ViewRanksUI.cs" id="1_n8htp"]
 
 [node name="RankingsUI" type="VBoxContainer"]
 anchors_preset = 15

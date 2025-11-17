@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://blp75sr6qskvp"]
 
-[ext_resource type="Script" path="res://CodeFiles/RejectMovieDialogue.cs" id="1_m0x64"]
+[ext_resource type="Script" uid="uid://cxv42rbkx2ogm" path="res://CodeFiles/RejectMovieDialogue.cs" id="1_m0x64"]
 
 [node name="RejectMovieDialogue" type="Window"]
 disable_3d = true
